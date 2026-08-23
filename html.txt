@@ -1,0 +1,2359 @@
+==> ./add-profile.html <==
+<!-- add-profile.html (optimized version) -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة بروفايل</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<main class="container">
+    <h1 class="page-title">إضافة بروفايل جديد</h1>
+
+    <form id="addProfileForm" class="form-card">
+
+        <div class="form-group">
+            <label>اسم البروفايل</label>
+            <input type="text" id="profileName" required>
+        </div>
+
+        <div class="form-group">
+            <label>الوصف</label>
+            <textarea id="profileDescription" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>الصورة الرئيسية</label>
+            <input type="file" id="profileImage" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn-primary">إضافة</button>
+    </form>
+</main>
+
+<div id="footer-placeholder"></div>
+
+<script src="/__/firebase/9.22.0/firebase-app-compat.js"></script>
+<script src="/__/firebase/9.22.0/firebase-auth-compat.js"></script>
+<script src="/__/firebase/9.22.0/firebase-firestore-compat.js"></script>
+<script src="/__/firebase/9.22.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/database.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
+
+
+==> ./admin_BK.html <==
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!--#include file="header.html" -->
+    
+    <main class="page-content">
+        <div class="container">
+            <div class="section-title">
+                <h2><i class="fas fa-cog"></i> لوحة التحكم</h2>
+                <p>إدارة المحتوى والمستخدمين والإحصائيات</p>
+            </div>
+
+            <!-- Statistics -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="total-users">0</span>
+                    <span class="stat-label">المستخدمين</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="total-profiles">0</span>
+                    <span class="stat-label">الحسابات</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="pending-profiles">0</span>
+                    <span class="stat-label">بانتظار الموافقة</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="vip-users">0</span>
+                    <span class="stat-label">مشتركين VIP</span>
+                </div>
+            </div>
+
+            <!-- Pending Profiles -->
+            <div class="admin-panel">
+                <h3><i class="fas fa-clock"></i> الحسابات المنتظرة الموافقة</h3>
+                <div class="admin-table">
+                    <table id="pending-profiles-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>المنصة</th>
+                                <th>المستخدم</th>
+                                <th>التاريخ</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pending-profiles-body">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Users -->
+            <div class="admin-panel">
+                <h3><i class="fas fa-users"></i> أحدث المستخدمين</h3>
+                <div class="admin-table">
+                    <table id="recent-users-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>البريد</th>
+                                <th>الحالة</th>
+                                <th>التاريخ</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-users-body">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports -->
+            <div class="admin-panel">
+                <h3><i class="fas fa-flag"></i> البلاغات</h3>
+                <div class="admin-table">
+                    <table id="reports-table">
+                        <thead>
+                            <tr>
+                                <th>المبلغ</th>
+                                <th>الحساب</th>
+                                <th>السبب</th>
+                                <th>التاريخ</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-body">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--#include file="footer.html" -->
+    
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
+
+==> ./admin.html <==
+<!-- admin.html - نسخة مطوّرة بالكامل مع إمكانية الحجب والحذف -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لوحة التحكم</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- الهيدر -->
+<div id="header"></div>
+
+<div class="container">
+    <h1 class="page-title">لوحة التحكم</h1>
+
+    <!-- إحصائيات الموقع -->
+    <section class="card">
+        <h2>الإحصائيات</h2>
+        <div class="stats-box">
+            <div class="stat-item">إجمالي الحسابات: <span id="totalProfiles">0</span></div>
+            <div class="stat-item">الحسابات المحجوبة: <span id="blockedProfiles">0</span></div>
+        </div>
+    </section>
+
+    <!-- إدارة الحسابات -->
+    <section class="card">
+        <h2>إدارة الحسابات</h2>
+        <table class="admin-table" id="profilesTable">
+            <thead>
+                <tr>
+                    <th>الصورة</th>
+                    <th>الاسم</th>
+                    <th>الوصف</th>
+                    <th>الحالة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="profilesList"></tbody>
+        </table>
+    </section>
+
+</div>
+
+<!-- الفوتر -->
+<div id="footer"></div>
+
+<script src="/__/firebase/9.22.0/firebase-app-compat.js"></script>
+<script src="/__/firebase/9.22.0/firebase-auth-compat.js"></script>
+<script src="/__/firebase/9.22.0/firebase-firestore-compat.js"></script>
+<script src="/__/firebase/9.22.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
+
+
+==> ./all-profiles.html <==
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جميع الحسابات - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Red<span>Toot</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="vip.html">حسابات VIP</a></li>
+                <li><a href="platforms.html">المنصات</a></li>
+                <li><a href="all-profiles.html" class="active">جميع الحسابات</a></li>
+                <li><a href="add-profile.html">نشر حساب</a></li>
+                <li id="admin-link" style="display: none;"><a href="admin.html">لوحة التحكم</a></li>
+            </ul>
+            <div class="header-actions">
+                <div id="user-menu" class="user-menu" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar"></div>
+                        <span id="user-name"></span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+                </div>
+                <div id="auth-buttons">
+                    <a href="register.html" class="btn">إنشاء حساب</a>
+                    <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+                </div>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>جميع الحسابات</h2>
+                <p>اكتشف آلاف الحسابات عبر مختلف منصات التواصل الاجتماعي</p>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-container">
+                    <div class="filter-title">
+                        <i class="fas fa-filter"></i>
+                        تصفية حسب المنصة
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all" onclick="filterProfiles('all')">
+                            <i class="fas fa-globe"></i>
+                            الكل
+                        </button>
+                        <button class="filter-btn instagram" data-filter="instagram" onclick="filterProfiles('instagram')">
+                            <i class="fab fa-instagram"></i>
+                            انستغرام
+                        </button>
+                        <button class="filter-btn snapchat" data-filter="snapchat" onclick="filterProfiles('snapchat')">
+                            <i class="fab fa-snapchat-ghost"></i>
+                            سناب شات
+                        </button>
+                        <button class="filter-btn tiktok" data-filter="tiktok" onclick="filterProfiles('tiktok')">
+                            <i class="fab fa-tiktok"></i>
+                            تيك توك
+                        </button>
+                        <button class="filter-btn facebook" data-filter="facebook" onclick="filterProfiles('facebook')">
+                            <i class="fab fa-facebook-f"></i>
+                            فيسبوك
+                        </button>
+                        <button class="filter-btn twitter" data-filter="twitter" onclick="filterProfiles('twitter')">
+                            <i class="fab fa-twitter"></i>
+                            تويتر
+                        </button>
+                        <button class="filter-btn youtube" data-filter="youtube" onclick="filterProfiles('youtube')">
+                            <i class="fab fa-youtube"></i>
+                            يوتيوب
+                        </button>
+                    </div>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="ابحث عن حساب..." oninput="searchProfiles()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Counter -->
+            <div class="results-counter">
+                <span id="resultsCount">0</span> حساب معروض
+            </div>
+
+            <!-- Cards Container -->
+            <div class="cards-container" id="profiles-container">
+                <!-- Profiles will be loaded dynamically -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات...
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="form-actions" id="load-more-container" style="display: none;">
+                <button id="load-more-btn" class="btn btn-secondary" onclick="loadMoreProfiles()">
+                    <i class="fas fa-redo"></i>
+                    تحميل المزيد
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>RedToot</h3>
+                    <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-snapchat-ghost"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>الأقسام</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="vip.html">حسابات VIP</a></li>
+                        <li><a href="add-profile.html">نشر حساب</a></li>
+                        <li><a href="platforms.html">المنصات</a></li>
+                        <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">عن الموقع</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2023 RedToot</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let lastVisible = null;
+        const pageSize = 12;
+
+        // Load initial profiles
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadProfiles();
+            
+            // Check URL parameters for platform filter
+            const urlParams = new URLSearchParams(window.location.search);
+            const platform = urlParams.get('platform');
+            if (platform) {
+                filterProfiles(platform);
+            }
+        });
+
+        async function loadProfiles() {
+            try {
+                const filters = currentFilter !== 'all' ? { platform: currentFilter } : {};
+                const profiles = await dbManager.searchProfiles(currentSearch, filters);
+                
+                displayProfiles(profiles);
+                updateResultsCount(profiles.length);
+                
+                // Show/hide load more button
+                const loadMoreContainer = document.getElementById('load-more-container');
+                loadMoreContainer.style.display = profiles.length >= pageSize ? 'block' : 'none';
+                
+            } catch (error) {
+                console.error('Error loading profiles:', error);
+                showError('حدث خطأ في تحميل الحسابات');
+            }
+        }
+
+        async function loadMoreProfiles() {
+            try {
+                // Implement pagination if needed
+                // This is a simplified version - you might want to implement proper pagination
+                await loadProfiles();
+            } catch (error) {
+                console.error('Error loading more profiles:', error);
+                showError('حدث خطأ في تحميل المزيد من الحسابات');
+            }
+        }
+
+        function displayProfiles(profiles) {
+            const container = document.getElementById('profiles-container');
+            
+            if (profiles.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results" style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                        <h3>لا توجد نتائج</h3>
+                        <p>${currentSearch ? 'لم نتمكن من العثور على أي حسابات تطابق معايير البحث' : 'لا توجد حسابات متاحة حالياً'}</p>
+                        ${!currentSearch ? '<a href="add-profile.html" class="btn" style="margin-top: 20px;">كن أول من ينشر حساب</a>' : ''}
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = profiles.map(profile => 
+                redTootApp.createProfileCard(profile)
+            ).join('');
+        }
+
+        function updateResultsCount(count) {
+            document.getElementById('resultsCount').textContent = count;
+        }
+
+        function filterProfiles(filter) {
+            currentFilter = filter;
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadProfiles();
+        }
+
+        function searchProfiles() {
+            currentSearch = document.getElementById('searchInput').value;
+            loadProfiles();
+        }
+
+        function showError(message) {
+            const container = document.getElementById('profiles-container');
+            container.innerHTML = `
+                <div class="no-results" style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                    <h3>حدث خطأ</h3>
+                    <p>${message}</p>
+                    <button class="btn" onclick="loadProfiles()" style="margin-top: 20px;">
+                        <i class="fas fa-redo"></i> إعادة المحاولة
+                    </button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
+
+==> ./footer.html <==
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>RedToot</h3>
+                <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-snapchat-ghost"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>الأقسام</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="vip.html">حسابات VIP</a></li>
+                    <li><a href="add-profile.html">نشر حساب</a></li>
+                    <li><a href="platforms.html">المنصات</a></li>
+                    <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>المساعدة</h3>
+                <ul class="footer-links">
+                    <li><a href="about.html">عن الموقع</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                    <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                    <li><a href="terms.html">شروط الاستخدام</a></li>
+                    <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة &copy; 2023 RedToot</p>
+        </div>
+    </div>
+</footer>
+
+==> ./header.html <==
+ <header>
+    <div class="container header-container">
+        <div class="logo">
+            <h1>Red<span>Toot</span></h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="vip.html">حسابات VIP</a></li>
+            <li><a href="platforms.html">المنصات</a></li>
+            <li><a href="all-profiles.html">جميع الحسابات</a></li>
+            <li><a href="add-profile.html">نشر حساب</a></li>
+            <li id="admin-link" style="display: none;"><a href="admin.html">لوحة التحكم</a></li>
+        </ul>
+        <div class="header-actions">
+            <div id="user-menu" style="display: none;">
+                <span id="user-name"></span>
+                <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+            </div>
+            <div id="auth-buttons">
+                <a href="register.html" class="btn">إنشاء حساب</a>
+                <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </div>
+</header>
+
+==> ./index.html <==
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedToot - نشر حسابات التواصل الاجتماعي</title>
+
+    <!-- Main Style -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- SEO -->
+    <meta name="description" content="منصة RedToot لنشر حسابات التواصل الاجتماعي واكتشاف حسابات جديدة بالمنصات المختلفة.">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+
+            <div class="logo">
+                <h1>Red<span>Toot</span></h1>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">الرئيسية</a></li>
+                <li><a href="vip.html">حسابات VIP</a></li>
+                <li><a href="platforms.html">المنصات</a></li>
+                <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                <li><a href="add-profile.html">نشر حساب</a></li>
+                <li id="admin-link" style="display:none;"><a href="admin.html">لوحة التحكم</a></li>
+            </ul>
+
+            <div class="header-actions">
+
+                <!-- User Menu -->
+                <div id="user-menu" class="user-menu" style="display:none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar"></div>
+                        <span id="user-name"></span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+                </div>
+
+                <!-- Auth Buttons -->
+                <div id="auth-buttons">
+                    <a href="register.html" class="btn">إنشاء حساب</a>
+                    <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+                </div>
+
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="page-content">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>منصة RedToot للتعارف عبر منصات التواصل الاجتماعي</h1>
+                <p>اكتشف أشهر حسابات السوشيال ميديا، أضف أصدقاء جدد، وانشر حسابك مجاناً للآلاف من المستخدمين</p>
+                <div class="hero-buttons">
+                    <a href="add-profile.html" class="btn">نشر حسابي الآن</a>
+                    <a href="#platforms" class="btn btn-secondary">استكشف المنصات</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platforms Section -->
+        <section id="platforms" class="platforms-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>منصات التواصل الاجتماعي</h2>
+                    <p>اختر المنصة التي تريد استكشاف حساباتها</p>
+                </div>
+
+                <div class="platforms-grid">
+
+                    <!-- Single platform -->
+                    <div class="platform-card instagram">
+                        <div class="platform-icon"><i class="fab fa-instagram"></i></div>
+                        <div class="platform-name">انستغرام</div>
+                    </div>
+
+                    <div class="platform-card snapchat">
+                        <div class="platform-icon"><i class="fab fa-snapchat-ghost"></i></div>
+                        <div class="platform-name">سناب شات</div>
+                    </div>
+
+                    <div class="platform-card tiktok">
+                        <div class="platform-icon"><i class="fab fa-tiktok"></i></div>
+                        <div class="platform-name">تيك توك</div>
+                    </div>
+
+                    <div class="platform-card facebook">
+                        <div class="platform-icon"><i class="fab fa-facebook-f"></i></div>
+                        <div class="platform-name">فيسبوك</div>
+                    </div>
+
+                    <div class="platform-card twitter">
+                        <div class="platform-icon"><i class="fab fa-twitter"></i></div>
+                        <div class="platform-name">تويتر</div>
+                    </div>
+
+                    <div class="platform-card youtube">
+                        <div class="platform-icon"><i class="fab fa-youtube"></i></div>
+                        <div class="platform-name">يوتيوب</div>
+                    </div>
+
+                    <div class="platform-card whatsapp">
+                        <div class="platform-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div class="platform-name">واتساب</div>
+                    </div>
+
+                    <div class="platform-card linkedin">
+                        <div class="platform-icon"><i class="fab fa-linkedin-in"></i></div>
+                        <div class="platform-name">لينكدإن</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- VIP Section -->
+        <section class="vip-section">
+            <div class="container">
+                <div class="navtitle">
+                    <h2><i class="fas fa-crown"></i> حسابات VIP المميزة</h2>
+                    <a href="vip.html" class="badge">اشترك في VIP</a>
+                </div>
+
+                <div class="cards-container" id="vip-profiles">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات المميزة...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Profiles -->
+        <section class="vip-section">
+            <div class="container">
+                <div class="navtitle">
+                    <h3><i class="fas fa-clock"></i> أحدث الحسابات</h3>
+                    <a href="add-profile.html" class="badge">نشر حسابك مجاناً</a>
+                </div>
+
+                <div class="cards-container" id="recent-profiles">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات الجديدة...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div class="footer-column">
+                    <h3>RedToot</h3>
+                    <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+
+                    <div class="social-links">
+                        <a><i class="fab fa-instagram"></i></a>
+                        <a><i class="fab fa-snapchat-ghost"></i></a>
+                        <a><i class="fab fa-tiktok"></i></a>
+                        <a><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>الأقسام</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="vip.html">حسابات VIP</a></li>
+                        <li><a href="add-profile.html">نشر حساب</a></li>
+                        <li><a href="platforms.html">المنصات</a></li>
+                        <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">عن الموقع</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة © 2023 RedToot</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Firebase SDK (Compat) -->
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <!-- Main Scripts -->
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/database.js"></script>
+    <script defer src="js/main.js"></script>
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // VIP
+                const vipProfiles = await dbManager.getVipProfiles();
+                const vipContainer = document.getElementById('vip-profiles');
+
+                vipContainer.innerHTML = vipProfiles.length
+                    ? vipProfiles.map(p => redTootApp.createProfileCard(p)).join('')
+                    : `<div class="no-results"><h3>لا توجد حسابات VIP حالياً</h3></div>`;
+
+                // Recent
+                const recentProfiles = await dbManager.getRecentProfiles();
+                const recentContainer = document.getElementById('recent-profiles');
+
+                recentContainer.innerHTML = recentProfiles.length
+                    ? recentProfiles.map(p => redTootApp.createProfileCard(p)).join('')
+                    : `<div class="no-results"><h3>لا توجد حسابات جديدة</h3></div>`;
+
+            } catch (err) {
+                console.error("Error loading profiles:", err);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+==> ./login.html <==
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Red<span>Toot</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="vip.html">حسابات VIP</a></li>
+                <li><a href="platforms.html">المنصات</a></li>
+                <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                <li><a href="add-profile.html">نشر حساب</a></li>
+                <li id="admin-link" style="display: none;"><a href="admin.html">لوحة التحكم</a></li>
+            </ul>
+            <div class="header-actions">
+                <div id="user-menu" class="user-menu" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar"></div>
+                        <span id="user-name"></span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+                </div>
+                <div id="auth-buttons">
+                    <a href="register.html" class="btn">إنشاء حساب</a>
+                    <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+                </div>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="form-container">
+                <h2 class="form-title">تسجيل الدخول</h2>
+                
+                <!-- Alert Messages -->
+                <div id="alert-success" class="alert alert-success" style="display: none;"></div>
+                <div id="alert-error" class="alert alert-error" style="display: none;"></div>
+                
+                <!-- Loading Indicator -->
+                <div id="loading" class="loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> جاري المعالجة...
+                </div>
+                
+                <!-- Google Login Button -->
+                <button id="google-signin" class="btn btn-google">
+                    <span class="btn-text">
+                        <div class="google-icon">G</div>
+                        تسجيل الدخول بحساب جوجل
+                    </span>
+                </button>
+                
+                <div class="divider">
+                    <span>أو</span>
+                </div>
+                
+                <!-- Regular Login Form -->
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" class="form-control" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">كلمة المرور</label>
+                        <input type="password" id="password" class="form-control" placeholder="أدخل كلمة المرور" required>
+                    </div>
+                    
+                    <div class="form-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">تذكرني</label>
+                        </div>
+                        <a href="forgot-password.html" class="forgot-password">نسيت كلمة المرور؟</a>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;" id="login-btn">
+                        <span class="btn-text">تسجيل الدخول</span>
+                    </button>
+                    
+                    <div class="form-footer">
+                        <p>ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>RedToot</h3>
+                    <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-snapchat-ghost"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>الأقسام</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="vip.html">حسابات VIP</a></li>
+                        <li><a href="add-profile.html">نشر حساب</a></li>
+                        <li><a href="platforms.html">المنصات</a></li>
+                        <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">عن الموقع</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2023 RedToot</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <script>
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('login-btn');
+            const rememberMe = document.getElementById('remember').checked;
+            
+            // Show loading
+            toggleLoading(true);
+            setButtonLoading(loginBtn, true);
+            
+            try {
+                // Set persistence based on remember me
+                const persistence = rememberMe ? 
+                    firebase.auth.Auth.Persistence.LOCAL : 
+                    firebase.auth.Auth.Persistence.SESSION;
+                
+                await auth.setPersistence(persistence);
+                
+                // Sign in user
+                await auth.signInWithEmailAndPassword(email, password);
+                
+                showAlert('تم تسجيل الدخول بنجاح!', 'success');
+                
+                // Redirect to home page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                
+            } catch (error) {
+                let errorMessage = 'حدث خطأ أثناء تسجيل الدخول';
+                
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'البريد الإلكتروني غير مسجل';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'كلمة المرور غير صحيحة';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'البريد الإلكتروني غير صالح';
+                } else if (error.code === 'auth/user-disabled') {
+                    errorMessage = 'هذا الحساب معطل';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'خطأ في الشبكة، يرجى المحاولة مرة أخرى';
+                }
+                
+                showAlert(errorMessage, 'error');
+                console.error('Login error:', error);
+            } finally {
+                toggleLoading(false);
+                setButtonLoading(loginBtn, false);
+            }
+        });
+
+        // Google Sign In
+        document.getElementById('google-signin').addEventListener('click', function() {
+            const googleBtn = this;
+            setButtonLoading(googleBtn, true);
+            
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('profile');
+            provider.addScope('email');
+            
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    showAlert('تم تسجيل الدخول بنجاح!', 'success');
+                    
+                    // Redirect to home page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                })
+                .catch((error) => {
+                    let errorMessage = 'حدث خطأ أثناء تسجيل الدخول باستخدام جوجل';
+                    
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        errorMessage = 'تم إغلاق نافذة التسجيل';
+                    } else if (error.code === 'auth/popup-blocked') {
+                        errorMessage = 'تم حظر النافذة المنبثقة، يرجى السماح بالنوافذ المنبثقة لهذا الموقع';
+                    }
+                    
+                    showAlert(errorMessage, 'error');
+                    console.error('Google sign-in error:', error);
+                })
+                .finally(() => {
+                    setButtonLoading(googleBtn, false);
+                });
+        });
+
+        // Utility functions
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById(`alert-${type}`);
+            alertDiv.textContent = message;
+            alertDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function toggleLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function setButtonLoading(button, loading) {
+            if (loading) {
+                button.disabled = true;
+                button.style.opacity = '0.7';
+                button.querySelector('.btn-text').innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            } else {
+                button.disabled = false;
+                button.style.opacity = '1';
+                button.querySelector('.btn-text').textContent = loading ? 'جاري المعالجة...' : 'تسجيل الدخول';
+            }
+        }
+
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is already logged in, redirect to home
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
+
+==> ./platforms.html <==
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنصات - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Red<span>Toot</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="vip.html">حسابات VIP</a></li>
+                <li><a href="platforms.html" class="active">المنصات</a></li>
+                <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                <li><a href="add-profile.html">نشر حساب</a></li>
+                <li id="admin-link" style="display: none;"><a href="admin.html">لوحة التحكم</a></li>
+            </ul>
+            <div class="header-actions">
+                <div id="user-menu" class="user-menu" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar"></div>
+                        <span id="user-name"></span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+                </div>
+                <div id="auth-buttons">
+                    <a href="register.html" class="btn">إنشاء حساب</a>
+                    <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+                </div>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>منصات التواصل الاجتماعي</h2>
+                <p>اختر المنصة التي تريد استكشاف حساباتها</p>
+            </div>
+
+            <!-- Platforms Grid -->
+            <div class="platforms-grid">
+                <div class="platform-card instagram" onclick="window.location.href='all-profiles.html?platform=instagram'">
+                    <div class="platform-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div class="platform-name">انستغرام</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="instagram-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card snapchat" onclick="window.location.href='all-profiles.html?platform=snapchat'">
+                    <div class="platform-icon">
+                        <i class="fab fa-snapchat-ghost"></i>
+                    </div>
+                    <div class="platform-name">سناب شات</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="snapchat-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card tiktok" onclick="window.location.href='all-profiles.html?platform=tiktok'">
+                    <div class="platform-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <div class="platform-name">تيك توك</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="tiktok-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card facebook" onclick="window.location.href='all-profiles.html?platform=facebook'">
+                    <div class="platform-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="platform-name">فيسبوك</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="facebook-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card twitter" onclick="window.location.href='all-profiles.html?platform=twitter'">
+                    <div class="platform-icon">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <div class="platform-name">تويتر</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="twitter-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card youtube" onclick="window.location.href='all-profiles.html?platform=youtube'">
+                    <div class="platform-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="platform-name">يوتيوب</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="youtube-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card whatsapp" onclick="window.location.href='all-profiles.html?platform=whatsapp'">
+                    <div class="platform-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="platform-name">واتساب</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="whatsapp-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card linkedin" onclick="window.location.href='all-profiles.html?platform=linkedin'">
+                    <div class="platform-icon">
+                        <i class="fab fa-linkedin-in"></i>
+                    </div>
+                    <div class="platform-name">لينكدإن</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="linkedin-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Profiles Section -->
+            <section class="vip-section" style="margin-top: 60px;">
+                <div class="container">
+                    <div class="navtitle">
+                        <h3><i class="fas fa-fire"></i> الحسابات الشائعة</h3>
+                        <a href="all-profiles.html" class="badge">عرض الكل</a>
+                    </div>
+                    <div class="cards-container" id="popular-profiles">
+                        <!-- Popular profiles will be loaded dynamically -->
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات الشائعة...
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>RedToot</h3>
+                    <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-snapchat-ghost"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>الأقسام</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="vip.html">حسابات VIP</a></li>
+                        <li><a href="add-profile.html">نشر حساب</a></li>
+                        <li><a href="platforms.html">المنصات</a></li>
+                        <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">عن الموقع</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2023 RedToot</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Load platform statistics and popular profiles
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Load platform counts
+                const platforms = ['instagram', 'snapchat', 'tiktok', 'facebook', 'twitter', 'youtube', 'whatsapp', 'linkedin'];
+                
+                for (const platform of platforms) {
+                    const count = await getPlatformCount(platform);
+                    document.getElementById(`${platform}-count`).textContent = count;
+                }
+
+                // Load popular profiles (most viewed)
+                const popularProfiles = await getPopularProfiles();
+                const container = document.getElementById('popular-profiles');
+                
+                if (popularProfiles.length > 0) {
+                    container.innerHTML = popularProfiles.map(profile => 
+                        redTootApp.createProfileCard(profile)
+                    ).join('');
+                } else {
+                    container.innerHTML = `
+                        <div class="no-results" style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                            <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                            <h3>لا توجد حسابات شائعة بعد</h3>
+                            <p>كن أول من ينشر حساب على المنصة</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading platform data:', error);
+            }
+        });
+
+        async function getPlatformCount(platform) {
+            try {
+                const snapshot = await db.collection('profiles')
+                    .where('status', '==', 'approved')
+                    .where('platform', '==', platform)
+                    .get();
+                return snapshot.size;
+            } catch (error) {
+                console.error(`Error getting ${platform} count:`, error);
+                return 0;
+            }
+        }
+
+        async function getPopularProfiles() {
+            try {
+                const snapshot = await db.collection('profiles')
+                    .where('status', '==', 'approved')
+                    .orderBy('views', 'desc')
+                    .limit(8)
+                    .get();
+                
+                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (error) {
+                console.error('Error getting popular profiles:', error);
+                return [];
+            }
+        }
+    </script>
+</body>
+</html>
+
+==> ./profile.html <==
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Red<span>Toot</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="vip.html">حسابات VIP</a></li>
+                <li><a href="platforms.html">المنصات</a></li>
+                <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                <li><a href="add-profile.html">نشر حساب</a></li>
+                <li id="admin-link" style="display: none;"><a href="admin.html">لوحة التحكم</a></li>
+            </ul>
+            <div class="header-actions">
+                <div id="user-menu" class="user-menu" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar"></div>
+                        <span id="user-name"></span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+                </div>
+                <div id="auth-buttons">
+                    <a href="register.html" class="btn">إنشاء حساب</a>
+                    <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+                </div>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <div id="profile-container">
+                <!-- Profile content will be loaded dynamically -->
+                <div class="loading" style="text-align: center; padding: 60px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>
+                    <p>جاري تحميل الملف الشخصي...</p>
+                </div>
+            </div>
+
+            <!-- Similar Profiles -->
+            <section class="vip-section" id="similar-profiles-section" style="display: none;">
+                <div class="container">
+                    <div class="navtitle">
+                        <h3><i class="fas fa-users"></i> حسابات مشابهة</h3>
+                    </div>
+                    <div class="cards-container" id="similar-profiles">
+                        <!-- Similar profiles will be loaded dynamically -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>RedToot</h3>
+                    <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-snapchat-ghost"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>الأقسام</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="vip.html">حسابات VIP</a></li>
+                        <li><a href="add-profile.html">نشر حساب</a></li>
+                        <li><a href="platforms.html">المنصات</a></li>
+                        <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">عن الموقع</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2023 RedToot</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        let currentProfile = null;
+
+        // Load profile data
+        document.addEventListener('DOMContentLoaded', async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const profileId = urlParams.get('id');
+            
+            if (!profileId) {
+                showError('معرف الملف غير صحيح');
+                return;
+            }
+
+            await loadProfile(profileId);
+        });
+
+        async function loadProfile(profileId) {
+            try {
+                const profile = await dbManager.getProfileById(profileId);
+                
+                if (!profile) {
+                    showError('الملف الشخصي غير موجود');
+                    return;
+                }
+
+                currentProfile = profile;
+                displayProfile(profile);
+                
+                // Load similar profiles
+                await loadSimilarProfiles(profile.platform, profileId);
+                
+                // Increment view count
+                await incrementViewCount(profileId);
+                
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showError('حدث خطأ في تحميل الملف الشخصي');
+            }
+        }
+
+        function displayProfile(profile) {
+            const container = document.getElementById('profile-container');
+            
+            const platformIcons = {
+                'instagram': 'fab fa-instagram',
+                'snapchat': 'fab fa-snapchat-ghost',
+                'tiktok': 'fab fa-tiktok',
+                'facebook': 'fab fa-facebook-f',
+                'twitter': 'fab fa-twitter',
+                'youtube': 'fab fa-youtube',
+                'whatsapp': 'fab fa-whatsapp',
+                'linkedin': 'fab fa-linkedin-in',
+                'telegram': 'fab fa-telegram'
+            };
+
+            const platformNames = {
+                'instagram': 'انستغرام',
+                'snapchat': 'سناب شات',
+                'tiktok': 'تيك توك',
+                'facebook': 'فيسبوك',
+                'twitter': 'تويتر',
+                'youtube': 'يوتيوب',
+                'whatsapp': 'واتساب',
+                'linkedin': 'لينكدإن',
+                'telegram': 'تيليجرام'
+            };
+
+            const actionTexts = {
+                'youtube': 'اشتراك',
+                'snapchat': 'إضافة',
+                'whatsapp': 'مراسلة',
+                'telegram': 'انضمام',
+                'default': 'متابعة'
+            };
+
+            const actionText = actionTexts[profile.platform] || actionTexts.default;
+
+            container.innerHTML = `
+                <div class="profile-header" style="background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div class="profile-info" style="display: flex; gap: 30px; align-items: center;">
+                        <div class="profile-image" style="flex-shrink: 0;">
+                            <img src="${profile.profileImage || 'https://via.placeholder.com/150x150?text=صورة+الحساب'}" 
+                                 alt="${profile.name}" 
+                                 style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary);"
+                                 onerror="this.src='https://via.placeholder.com/150x150?text=صورة+الحساب'">
+                        </div>
+                        <div class="profile-details" style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                                <h1 style="font-size: 2rem; color: var(--dark); margin: 0;">${profile.name}</h1>
+                                ${profile.isVip ? '<span class="vip-badge" style="position: static;">VIP</span>' : ''}
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
+                                <span class="platform-badge" style="position: static;">
+                                    <i class="${platformIcons[profile.platform]}"></i>
+                                    ${platformNames[profile.platform]}
+                                </span>
+                                <span style="color: var(--gray);">
+                                    <i class="fas fa-user"></i> @${profile.username}
+                                </span>
+                                <span style="color: var(--gray);">
+                                    <i class="fas fa-map-marker-alt"></i> ${profile.location}
+                                </span>
+                                <span style="color: var(--gray);">
+                                    <i class="fas fa-user-friends"></i> ${profile.gender}
+                                </span>
+                            </div>
+
+                            <div style="display: flex; gap: 30px; margin-bottom: 20px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">${profile.views || 0}</div>
+                                    <div style="font-size: 0.9rem; color: var(--gray);">مشاهدة</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">${profile.likes || 0}</div>
+                                    <div style="font-size: 0.9rem; color: var(--gray);">إعجاب</div>
+                                </div>
+                            </div>
+
+                            <div class="profile-actions" style="display: flex; gap: 15px;">
+                                <a href="${profile.profileLink}" target="_blank" class="btn" style="padding: 12px 30px;">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    ${actionText}
+                                </a>
+                                <button class="btn btn-secondary" onclick="likeProfile('${profile.id}')">
+                                    <i class="fas fa-heart"></i>
+                                    إعجاب
+                                </button>
+                                <button class="btn btn-secondary" onclick="shareProfile('${profile.id}')">
+                                    <i class="fas fa-share"></i>
+                                    مشاركة
+                                </button>
+                                <button class="btn btn-secondary" onclick="reportProfile('${profile.id}')">
+                                    <i class="fas fa-flag"></i>
+                                    بلاغ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                ${profile.description ? `
+                <div class="profile-description" style="background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="margin-bottom: 15px; color: var(--dark);">
+                        <i class="fas fa-info-circle"></i> عن الحساب
+                    </h3>
+                    <p style="line-height: 1.8; color: var(--gray);">${profile.description}</p>
+                </div>
+                ` : ''}
+
+                ${profile.hobbies ? `
+                <div class="profile-hobbies" style="background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="margin-bottom: 15px; color: var(--dark);">
+                        <i class="fas fa-heart"></i> الهوايات والاهتمامات
+                    </h3>
+                    <div class="hobbies-container" style="margin-top: 15px;">
+                        ${profile.hobbies.split(',').map(hobby => `
+                            <span class="hobby-tag" style="background: var(--primary); color: white; border: none;">${hobby.trim()}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
+            // Show similar profiles section
+            document.getElementById('similar-profiles-section').style.display = 'block';
+        }
+
+        async function loadSimilarProfiles(platform, excludeId) {
+            try {
+                const similarProfiles = await db.collection('profiles')
+                    .where('platform', '==', platform)
+                    .where('status', '==', 'approved')
+                    .where('id', '!=', excludeId)
+                    .orderBy('createdAt', 'desc')
+                    .limit(4)
+                    .get();
+                
+                const container = document.getElementById('similar-profiles');
+                
+                if (similarProfiles.empty) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                            <p>لا توجد حسابات مشابهة حالياً</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = similarProfiles.docs.map(doc => {
+                    const profile = { id: doc.id, ...doc.data() };
+                    return redTootApp.createProfileCard(profile);
+                }).join('');
+            } catch (error) {
+                console.error('Error loading similar profiles:', error);
+            }
+        }
+
+        async function incrementViewCount(profileId) {
+            try {
+                const profileRef = db.collection('profiles').doc(profileId);
+                await profileRef.update({
+                    views: firebase.firestore.FieldValue.increment(1)
+                });
+            } catch (error) {
+                console.error('Error incrementing view count:', error);
+            }
+        }
+
+        async function likeProfile(profileId) {
+            const user = auth.currentUser;
+            if (!user) {
+                alert('يجب تسجيل الدخول أولاً للإعجاب بالحساب');
+                return;
+            }
+
+            try {
+                const profileRef = db.collection('profiles').doc(profileId);
+                await profileRef.update({
+                    likes: firebase.firestore.FieldValue.increment(1)
+                });
+                
+                alert('تم الإعجاب بالحساب بنجاح!');
+                // Refresh profile data
+                await loadProfile(profileId);
+            } catch (error) {
+                console.error('Error liking profile:', error);
+                alert('حدث خطأ أثناء الإعجاب بالحساب');
+            }
+        }
+
+        function shareProfile(profileId) {
+            const profileUrl = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: currentProfile.name,
+                    text: `تحقق من حساب ${currentProfile.name} على RedToot`,
+                    url: profileUrl
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(profileUrl).then(() => {
+                    alert('تم نسخ رابط الحساب إلى الحافظة');
+                });
+            }
+        }
+
+        function reportProfile(profileId) {
+            const reason = prompt('يرجى إدخال سبب البلاغ:');
+            if (!reason) return;
+
+            const user = auth.currentUser;
+            if (!user) {
+                alert('يجب تسجيل الدخول أولاً للإبلاغ عن الحساب');
+                return;
+            }
+
+            // In a real application, you would save the report to the database
+            alert('تم إرسال البلاغ بنجاح، سيتم مراجعته من قبل الإدارة');
+        }
+
+        function showError(message) {
+            const container = document.getElementById('profile-container');
+            container.innerHTML = `
+                <div class="no-results" style="text-align: center; padding: 60px; color: var(--gray);">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                    <h3>${message}</h3>
+                    <a href="all-profiles.html" class="btn" style="margin-top: 20px;">العودة إلى الحسابات</a>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
+
+==> ./register.html <==
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Red<span>Toot</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="vip.html">حسابات VIP</a></li>
+                <li><a href="platforms.html">المنصات</a></li>
+                <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                <li><a href="add-profile.html">نشر حساب</a></li>
+                <li id="admin-link" style="display: none;"><a href="admin.html">لوحة التحكم</a></li>
+            </ul>
+            <div class="header-actions">
+                <div id="user-menu" class="user-menu" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar"></div>
+                        <span id="user-name"></span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+                </div>
+                <div id="auth-buttons">
+                    <a href="register.html" class="btn">إنشاء حساب</a>
+                    <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+                </div>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="form-container">
+                <h2 class="form-title">إنشاء حساب جديد</h2>
+                
+                <!-- Alert Messages -->
+                <div id="alert-success" class="alert alert-success" style="display: none;"></div>
+                <div id="alert-error" class="alert alert-error" style="display: none;"></div>
+                <div id="alert-warning" class="alert alert-warning" style="display: none;"></div>
+                
+                <!-- Loading Indicator -->
+                <div id="loading" class="loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> جاري المعالجة...
+                </div>
+                
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="reg-username">اسم المستخدم</label>
+                        <input type="text" id="reg-username" class="form-control" placeholder="أدخل اسم المستخدم" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">البريد الإلكتروني</label>
+                        <input type="email" id="reg-email" class="form-control" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">كلمة المرور</label>
+                        <input type="password" id="reg-password" class="form-control" placeholder="أدخل كلمة المرور" required>
+                        <small style="color: var(--gray); font-size: 0.8rem;">كلمة المرور يجب أن تكون 6 أحرف على الأقل</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-confirm-password">تأكيد كلمة المرور</label>
+                        <input type="password" id="reg-confirm-password" class="form-control" placeholder="أعد إدخال كلمة المرور" required>
+                    </div>
+                    <div class="terms-agreement">
+                        <input type="checkbox" id="agree-terms" required>
+                        <label for="agree-terms">أوافق على <a href="terms.html">شروط الاستخدام</a> و <a href="privacy.html">سياسة الخصوصية</a></label>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;" id="register-btn">
+                        <span class="btn-text">إنشاء حساب</span>
+                    </button>
+                </form>
+                
+                <!-- Divider -->
+                <div class="divider">
+                    <span>أو</span>
+                </div>
+                
+                <!-- Google Sign In Button -->
+                <button id="google-signin" class="btn btn-google">
+                    <span class="btn-text">
+                        <div class="google-icon">G</div>
+                        تسجيل الدخول باستخدام جوجل
+                    </span>
+                </button>
+                
+                <div class="form-footer">
+                    <p>هل لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>RedToot</h3>
+                    <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-snapchat-ghost"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>الأقسام</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="vip.html">حسابات VIP</a></li>
+                        <li><a href="add-profile.html">نشر حساب</a></li>
+                        <li><a href="platforms.html">المنصات</a></li>
+                        <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">عن الموقع</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2023 RedToot</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    
+    <script>
+        // Regular form registration
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const registerBtn = document.getElementById('register-btn');
+            
+            // Validation
+            if (password !== confirmPassword) {
+                showAlert('كلمات المرور غير متطابقة!', 'error');
+                document.getElementById('reg-confirm-password').classList.add('error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAlert('كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
+                return;
+            }
+            
+            // Show loading
+            toggleLoading(true);
+            setButtonLoading(registerBtn, true);
+            
+            try {
+                // Create user with email and password
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Update user profile
+                await user.updateProfile({
+                    displayName: username
+                });
+                
+                // Send email verification
+                await user.sendEmailVerification();
+                
+                // Show success message
+                showAlert('تم إنشاء الحساب بنجاح! تم إرسال رابط التحقق إلى بريدك الإلكتروني.', 'success');
+                
+                // Redirect to home page after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 3000);
+                
+            } catch (error) {
+                let errorMessage = 'حدث خطأ أثناء إنشاء الحساب';
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'هذا البريد الإلكتروني مستخدم بالفعل';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'البريد الإلكتروني غير صالح';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'كلمة المرور ضعيفة جداً';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'خطأ في الشبكة، يرجى المحاولة مرة أخرى';
+                }
+                
+                showAlert(errorMessage, 'error');
+                console.error('Registration error:', error);
+            } finally {
+                toggleLoading(false);
+                setButtonLoading(registerBtn, false);
+            }
+        });
+
+        // Google Sign In
+        document.getElementById('google-signin').addEventListener('click', function() {
+            const googleBtn = this;
+            setButtonLoading(googleBtn, true);
+            
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('profile');
+            provider.addScope('email');
+            
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    showAlert('تم تسجيل الدخول بنجاح!', 'success');
+                    
+                    // Redirect to home page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                })
+                .catch((error) => {
+                    let errorMessage = 'حدث خطأ أثناء تسجيل الدخول باستخدام جوجل';
+                    
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        errorMessage = 'تم إغلاق نافذة التسجيل';
+                    } else if (error.code === 'auth/popup-blocked') {
+                        errorMessage = 'تم حظر النافذة المنبثقة، يرجى السماح بالنوافذ المنبثقة لهذا الموقع';
+                    }
+                    
+                    showAlert(errorMessage, 'error');
+                    console.error('Google sign-in error:', error);
+                })
+                .finally(() => {
+                    setButtonLoading(googleBtn, false);
+                });
+        });
+
+        // Utility functions
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById(`alert-${type}`);
+            alertDiv.textContent = message;
+            alertDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function toggleLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function setButtonLoading(button, loading) {
+            if (loading) {
+                button.disabled = true;
+                button.style.opacity = '0.7';
+                button.querySelector('.btn-text').innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            } else {
+                button.disabled = false;
+                button.style.opacity = '1';
+                button.querySelector('.btn-text').textContent = loading ? 'جاري المعالجة...' : 'إنشاء حساب';
+            }
+        }
+
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is already logged in, redirect to home
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
+
+==> ./vip.html <==
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حسابات VIP - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Red<span>Toot</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="vip.html" class="active">حسابات VIP</a></li>
+                <li><a href="platforms.html">المنصات</a></li>
+                <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                <li><a href="add-profile.html">نشر حساب</a></li>
+                <li id="admin-link" style="display: none;"><a href="admin.html">لوحة التحكم</a></li>
+            </ul>
+            <div class="header-actions">
+                <div id="user-menu" class="user-menu" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar"></div>
+                        <span id="user-name"></span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+                </div>
+                <div id="auth-buttons">
+                    <a href="register.html" class="btn">إنشاء حساب</a>
+                    <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+                </div>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <!-- VIP Hero Section -->
+        <section class="vip-hero" style="background: linear-gradient(135deg, #ffd31c 0%, #ffed4e 100%); color: #8a6d00; padding: 150px 0 80px; text-align: center;">
+            <div class="container vip-hero-content">
+                <h1>ارتقِ بحساباتك إلى مستوى VIP</h1>
+                <p>احصل على مزايا حصرية، ظهور أكبر، ومزيد من المتابعين مع اشتراك VIP</p>
+                <div class="hero-buttons">
+                    <a href="#pricing" class="btn" style="background-color: white; color: #8a6d00;">اشترك الآن</a>
+                    <a href="#features" class="btn btn-secondary" style="border-color: white; color: white;">اكتشف المزايا</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIP Features Section -->
+        <section id="features" class="vip-features">
+            <div class="container">
+                <div class="section-title">
+                    <h2>مزايا العضوية VIP</h2>
+                    <p>استمتع بمجموعة من المزايا الحصرية التي ستساعدك في تطوير حضورك على وسائل التواصل الاجتماعي</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3>ظهور مميز</h3>
+                        <p>احصل على وضعية ظهور مميزة في الصفحة الرئيسية وأعلى نتائج البحث</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>إحصائيات متقدمة</h3>
+                        <p>اطلع على إحصائيات مفصلة حول أداء حسابك وزيارات الملف الشخصي</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>ترقية فورية</h3>
+                        <p>ترقية فورية لحسابك مع شارة VIP مميزة تجذب انتباه الزوار</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>متابعين أكثر</h3>
+                        <p>زود فرصك في الحصول على متابعين جدد بنسبة تصل إلى 300%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIP Pricing Section -->
+        <section id="pricing" class="vip-pricing">
+            <div class="container">
+                <div class="section-title">
+                    <h2>باقات العضوية VIP</h2>
+                    <p>اختر الباقة التي تناسبك واستمتع بمزايا حصرية</p>
+                </div>
+                <div class="pricing-grid">
+                    <!-- Basic Plan -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>الباقة الأساسية</h3>
+                            <div class="price">49 <span class="period">/شهر</span></div>
+                            <p>مناسب للمستخدمين الجدد</p>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li><i class="fas fa-check"></i> شارة VIP على الملف الشخصي</li>
+                                <li><i class="fas fa-check"></i> ظهور في قسم VIP</li>
+                                <li><i class="fas fa-check"></i> إحصائيات أساسية</li>
+                                <li><i class="fas fa-times"></i> ظهور في الصفحة الرئيسية</li>
+                                <li><i class="fas fa-times"></i> إحصائيات متقدمة</li>
+                                <li><i class="fas fa-times"></i> دعم فوري</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-action">
+                            <a href="#" class="btn btn-secondary" onclick="subscribeToVip('basic')">اشترك الآن</a>
+                        </div>
+                    </div>
+
+                    <!-- Popular Plan -->
+                    <div class="pricing-card popular">
+                        <div class="pricing-header">
+                            <h3>الباقة المميزة</h3>
+                            <div class="price">99 <span class="period">/شهر</span></div>
+                            <p>الأكثر شيوعاً بين المستخدمين</p>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li><i class="fas fa-check"></i> شارة VIP على الملف الشخصي</li>
+                                <li><i class="fas fa-check"></i> ظهور في قسم VIP</li>
+                                <li><i class="fas fa-check"></i> إحصائيات أساسية</li>
+                                <li><i class="fas fa-check"></i> ظهور في الصفحة الرئيسية</li>
+                                <li><i class="fas fa-check"></i> إحصائيات متقدمة</li>
+                                <li><i class="fas fa-times"></i> دعم فوري</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-action">
+                            <a href="#" class="btn btn-vip" onclick="subscribeToVip('premium')">اشترك الآن</a>
+                        </div>
+                    </div>
+
+                    <!-- Premium Plan -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>الباقة الاحترافية</h3>
+                            <div class="price">199 <span class="period">/شهر</span></div>
+                            <p>مثالية للمؤثرين والمحترفين</p>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li><i class="fas fa-check"></i> شارة VIP على الملف الشخصي</li>
+                                <li><i class="fas fa-check"></i> ظهور في قسم VIP</li>
+                                <li><i class="fas fa-check"></i> إحصائيات أساسية</li>
+                                <li><i class="fas fa-check"></i> ظهور في الصفحة الرئيسية</li>
+                                <li><i class="fas fa-check"></i> إحصائيات متقدمة</li>
+                                <li><i class="fas fa-check"></i> دعم فوري</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-action">
+                            <a href="#" class="btn btn-secondary" onclick="subscribeToVip('professional')">اشترك الآن</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIP Members Section -->
+        <section class="vip-members">
+            <div class="container">
+                <div class="section-title">
+                    <h2>حسابات VIP المميزة</h2>
+                    <p>تعرف على أشهر حسابات VIP في منصتنا</p>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-container">
+                        <div class="filter-title">
+                            <i class="fas fa-filter"></i>
+                            تصفية حسب المنصة
+                        </div>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">الكل</button>
+                            <button class="filter-btn instagram" data-filter="instagram">انستغرام</button>
+                            <button class="filter-btn snapchat" data-filter="snapchat">سناب شات</button>
+                            <button class="filter-btn tiktok" data-filter="tiktok">تيك توك</button>
+                            <button class="filter-btn youtube" data-filter="youtube">يوتيوب</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-container" id="vip-profiles-container">
+                    <!-- VIP profiles will be loaded dynamically -->
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> جاري تحميل حسابات VIP...
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>RedToot</h3>
+                    <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-snapchat-ghost"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>الأقسام</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="vip.html">حسابات VIP</a></li>
+                        <li><a href="add-profile.html">نشر حساب</a></li>
+                        <li><a href="platforms.html">المنصات</a></li>
+                        <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">عن الموقع</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2023 RedToot</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Load VIP profiles
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const vipProfiles = await dbManager.getVipProfiles();
+                const container = document.getElementById('vip-profiles-container');
+                
+                if (vipProfiles.length > 0) {
+                    container.innerHTML = vipProfiles.map(profile => 
+                        redTootApp.createProfileCard(profile)
+                    ).join('');
+                } else {
+                    container.innerHTML = `
+                        <div class="no-results" style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                            <i class="fas fa-crown" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                            <h3>لا توجد حسابات VIP حالياً</h3>
+                            <p>كن أول من ينشر حساب VIP على المنصة</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading VIP profiles:', error);
+            }
+        });
+
+        // VIP subscription function
+        async function subscribeToVip(plan) {
+            const user = auth.currentUser;
+            if (!user) {
+                alert('يجب تسجيل الدخول أولاً للاشتراك في VIP');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                await dbManager.upgradeToVip(user.uid, plan);
+                alert(`تم الاشتراك في باقة ${plan} بنجاح!`);
+                window.location.reload();
+            } catch (error) {
+                console.error('Error subscribing to VIP:', error);
+                alert('حدث خطأ أثناء الاشتراك، يرجى المحاولة مرة أخرى');
+            }
+        }
+    </script>
+</body>
+</html>

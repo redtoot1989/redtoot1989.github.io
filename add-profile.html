@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نشر حساب - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+
+
+
+</head>
+<body>
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+    <!-- Header -->
+    <header id="header" role="banner"></header>
+
+
+    <!-- Add Profile Page Content -->
+    <div class="page-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>نشر حساب جديد</h2>
+                <p>أضف حسابك على منصات التواصل الاجتماعي للتواصل مع الآخرين</p>
+            </div>
+
+            <div class="form-container">
+                <form id="addProfileForm">
+                    <!-- المنصة -->
+                    <div class="form-group">
+                        <label class="form-label" for="platform">اختر المنصة</label>
+                        <div class="platform-select">
+                            <select id="platform" name="platform" class="form-select" required>
+                                <option value="">اختر منصة التواصل الاجتماعي</option>
+                                <option value="instagram" data-icon="instagram">انستغرام</option>
+                                <option value="snapchat" data-icon="snapchat-ghost">سناب شات</option>
+                                <option value="tiktok" data-icon="tiktok">تيك توك</option>
+                                <option value="facebook" data-icon="facebook-f">فيسبوك</option>
+                                <option value="twitter" data-icon="twitter">تويتر</option>
+                                <option value="youtube" data-icon="youtube">يوتيوب</option>
+                                <option value="whatsapp" data-icon="whatsapp">واتساب</option>
+                                <option value="telegram" data-icon="telegram">تيليجرام</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- الاسم الكامل -->
+                    <div class="form-group">
+                        <label class="form-label" for="name">الاسم الكامل</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="أدخل اسمك الكامل" required>
+                    </div>
+
+                    <!-- اسم المستخدم -->
+                    <div class="form-group">
+                        <label class="form-label" for="username">اسم المستخدم</label>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="اسم المستخدم على المنصة" required>
+                    </div>
+
+                    <!-- البلد -->
+                    <div class="form-group">
+                        <label class="form-label" for="location">البلد</label>
+                        <select id="location" name="location" class="form-select" required>
+                            <option value="">اختر بلدك</option>
+                            <option value="السعودية">السعودية</option>
+                            <option value="الكويت">الكويت</option>
+                            <option value="الإمارات">الإمارات</option>
+                            <option value="قطر">قطر</option>
+                            <option value="البحرين">البحرين</option>
+                            <option value="عمان">عمان</option>
+                        </select>
+                    </div>
+
+                    <!-- الفئة العمرية -->
+                    <div class="form-group">
+                        <label class="form-label" for="age">الفئة العمرية</label>
+                        <select id="age" name="age" class="form-select" required>
+                            <option value="">اختر فئتك العمرية</option>
+                            <option value="18-25">18-25</option>
+                            <option value="26-35">26-35</option>
+                            <option value="36-45">36-45</option>
+                            <option value="45+">45+</option>
+                        </select>
+                    </div>
+
+                    <!-- الجنس -->
+                    <div class="form-group">
+                        <label class="form-label" for="gender">الجنس</label>
+                        <select id="gender" name="gender" class="form-select" required>
+                            <option value="">اختر الجنس</option>
+                            <option value="ذكر">ذكر</option>
+                            <option value="أنثى">أنثى</option>
+                        </select>
+                    </div>
+
+                    <!-- الهوايات -->
+                    <div class="form-group">
+                        <label class="form-label" for="hobbies">الهوايات والاهتمامات</label>
+                        <select id="hobbies" name="hobbies" class="form-select" multiple>
+                            <option value="السفر">السفر</option>
+                            <option value="القراءة">القراءة</option>
+                            <option value="الرياضة">الرياضة</option>
+                            <option value="التصوير">التصوير</option>
+                            <option value="الطبخ">الطبخ</option>
+                            <option value="الموسيقى">الموسيقى</option>
+                            <option value="الرسم">الرسم</option>
+                            <option value="البرمجة">البرمجة</option>
+                        </select>
+                        <small style="color: var(--gray); margin-top: 5px; display: block;">يمكنك اختيار أكثر من هواية بالضغط على Ctrl</small>
+                    </div>
+
+                    <!-- رابط الحساب -->
+                    <div class="form-group">
+                        <label class="form-label" for="profileLink">رابط الحساب</label>
+                        <input type="url" id="profileLink" name="profileLink" class="form-control" placeholder="https://example.com/yourprofile" required>
+                    </div>
+
+                    <!-- أزرار الإجراءات -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn" style="padding: 12px 40px;">
+                            <i class="fas fa-plus"></i>
+                            نشر الحساب
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="resetForm">
+                            <i class="fas fa-redo"></i>
+                            إعادة تعيين
+                        </button>
+                    </div>
+
+                    <!-- ملاحظة -->
+                    <div class="form-note">
+                        بالنقر على "نشر الحساب"، فإنك توافق على <a href="terms.html">شروط الاستخدام</a> و <a href="privacy.html">سياسة الخصوصية</a> الخاصة بنا.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer" role="contentinfo"></footer>
+    
+    <!-- Core Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/AdvancedInputValidator.js"></script>
+    <script src="js/AuthManager.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/headerfooter.js"></script>
+    <!-- <script src="js/force-hard-refresh.js"></script> -->
+    <script src="js/AdminPanel.js"></script>
+    
+    
+
+    <script>
+        // Update platform icons based on selection
+        document.getElementById('platform').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const iconClass = selectedOption.getAttribute('data-icon');
+            
+            // Remove existing icons
+            const existingIcons = document.querySelectorAll('.platform-select i');
+            existingIcons.forEach(icon => icon.remove());
+            
+            // Add new icon if available
+            if (iconClass) {
+                const icon = document.createElement('i');
+                icon.className = `fab fa-${iconClass}`;
+                
+                // Set color based on platform
+                const platform = selectedOption.value;
+                const colors = {
+                    'instagram': '#E1306C',
+                    'snapchat': '#FFFC00',
+                    'tiktok': '#000000',
+                    'facebook': '#1877F2',
+                    'twitter': '#1DA1F2',
+                    'youtube': '#FF0000',
+                    'whatsapp': '#25D366',
+                    'telegram': '#0088cc'
+                };
+                
+                icon.style.color = colors[platform] || '#333';
+                
+                document.querySelector('.platform-select').appendChild(icon);
+            }
+        });
+
+        // Form submission
+        document.getElementById('addProfileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic validation
+            if (!document.getElementById('platform').value) {
+                alert('يرجى اختيار منصة التواصل الاجتماعي');
+                return;
+            }
+            
+            // In a real application, you would send the form data to a server
+            // For now, we'll just show a success message
+            alert('تم إرسال طلب نشر حسابك بنجاح! سيتم مراجعته من قبل الإدارة قبل النشر.');
+            
+            // Reset form
+            resetForm();
+        });
+
+        // Reset form
+        document.getElementById('resetForm').addEventListener('click', resetForm);
+        
+        function resetForm() {
+            document.getElementById('addProfileForm').reset();
+            
+            // Remove platform icon
+            const existingIcons = document.querySelectorAll('.platform-select i');
+            existingIcons.forEach(icon => icon.remove());
+        }
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>

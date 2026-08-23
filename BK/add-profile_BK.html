@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة بروفايل جديد - RedToot</title>
+    
+    <!-- SEO -->
+    <meta name="description" content="أضف حسابك على منصات التواصل الاجتماعي إلى RedToot واجعل الآلاف يكتشفون حسابك">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Page Specific Styles -->
+    <style>
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .form-header h1 {
+            color: #e91e63;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .form-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            flex: 1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+        
+        .form-control:focus {
+            border-color: #e91e63;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+            outline: none;
+        }
+        
+        .form-control.is-invalid {
+            border-color: #f44336;
+        }
+        
+        .form-control.is-valid {
+            border-color: #4caf50;
+        }
+        
+        .validation-feedback {
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+        
+        .invalid-feedback {
+            color: #f44336;
+        }
+        
+        .valid-feedback {
+            color: #4caf50;
+        }
+        
+        .image-upload-container {
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+        
+        .image-upload-container:hover {
+            border-color: #e91e63;
+            background-color: #fff5f7;
+        }
+        
+        .image-upload-container.dragover {
+            border-color: #e91e63;
+            background-color: #fff5f7;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #e0e0e0;
+            margin-bottom: 1rem;
+        }
+        
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+            margin: 1rem auto;
+            display: none;
+        }
+        
+        .platform-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .platform-option {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .platform-option:hover {
+            border-color: #e91e63;
+            transform: translateY(-2px);
+        }
+        
+        .platform-option.selected {
+            border-color: #e91e63;
+            background-color: #fff5f7;
+        }
+        
+        .platform-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .platform-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .character-counter {
+            text-align: left;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        .character-counter.warning {
+            color: #ff9800;
+        }
+        
+        .character-counter.error {
+            color: #f44336;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: #e91e63;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #d81b60;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background-color: #f1f8e9;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .success-icon {
+            font-size: 3rem;
+            color: #4caf50;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .platform-selector {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Placeholder -->
+<div id="header-placeholder"></div>
+
+<main class="container">
+    <div class="form-card">
+        <div class="form-header">
+            <h1><i class="fas fa-plus-circle"></i> إضافة بروفايل جديد</h1>
+            <p>أضف حسابك على منصات التواصل الاجتماعي واجعل الآلاف يكتشفون حسابك</p>
+        </div>
+
+        <form id="addProfileForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="profileName">الاسم الكامل <span class="required">*</span></label>
+                    <input type="text" id="profileName" class="form-control" placeholder="أدخل اسمك الحقيقي" required>
+                    <div class="validation-feedback"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="profileUsername">اسم المستخدم <span class="required">*</span></label>
+                    <input type="text" id="profileUsername" class="form-control" placeholder="اسم المستخدم على المنصة" required>
+                    <div class="validation-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="profilePlatform">اختر المنصة <span class="required">*</span></label>
+                <div class="platform-selector" id="profilePlatform">
+                    <div class="platform-option" data-platform="instagram">
+                        <div class="platform-icon" style="color: #E4405F;"><i class="fab fa-instagram"></i></div>
+                        <div class="platform-name">انستغرام</div>
+                    </div>
+                    <div class="platform-option" data-platform="snapchat">
+                        <div class="platform-icon" style="color: #FFFC00;"><i class="fab fa-snapchat-ghost"></i></div>
+                        <div class="platform-name">سناب شات</div>
+                    </div>
+                    <div class="platform-option" data-platform="tiktok">
+                        <div class="platform-icon" style="color: #000000;"><i class="fab fa-tiktok"></i></div>
+                        <div class="platform-name">تيك توك</div>
+                    </div>
+                    <div class="platform-option" data-platform="facebook">
+                        <div class="platform-icon" style="color: #1877F2;"><i class="fab fa-facebook-f"></i></div>
+                        <div class="platform-name">فيسبوك</div>
+                    </div>
+                    <div class="platform-option" data-platform="twitter">
+                        <div class="platform-icon" style="color: #1DA1F2;"><i class="fab fa-twitter"></i></div>
+                        <div class="platform-name">تويتر</div>
+                    </div>
+                    <div class="platform-option" data-platform="youtube">
+                        <div class="platform-icon" style="color: #FF0000;"><i class="fab fa-youtube"></i></div>
+                        <div class="platform-name">يوتيوب</div>
+                    </div>
+                    <div class="platform-option" data-platform="whatsapp">
+                        <div class="platform-icon" style="color: #25D366;"><i class="fab fa-whatsapp"></i></div>
+                        <div class="platform-name">واتساب</div>
+                    </div>
+                    <div class="platform-option" data-platform="linkedin">
+                        <div class="platform-icon" style="color: #0A66C2;"><i class="fab fa-linkedin-in"></i></div>
+                        <div class="platform-name">لينكدإن</div>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedPlatform" required>
+                <div class="validation-feedback" id="platformFeedback"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="profileLink">رابط الحساب <span class="required">*</span></label>
+                <input type="url" id="profileLink" class="form-control" placeholder="https://..." required>
+                <div class="validation-feedback"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="profileDescription">الوصف <span class="required">*</span></label>
+                <textarea id="profileDescription" class="form-control" rows="4" placeholder="اكتب وصفاً موجزاً عن نفسك ونشاطك..." maxlength="500" required></textarea>
+                <div class="character-counter" id="descriptionCounter">0/500</div>
+                <div class="validation-feedback"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="profileLocation">المكان (اختياري)</label>
+                <input type="text" id="profileLocation" class="form-control" placeholder="البلد أو المدينة">
+            </div>
+            
+            <div class="form-group">
+                <label for="profileHobbies">الهوايات والاهتمامات (اختياري)</label>
+                <input type="text" id="profileHobbies" class="form-control" placeholder="مثال: السفر، القراءة، التصوير...">
+            </div>
+            
+            <div class="form-group">
+                <label>الصورة الشخصية <span class="required">*</span></label>
+                <div class="image-upload-container" id="imageUploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>اسحب وأفلت الصورة هنا</h3>
+                    <p>أو <span style="color: #e91e63;">انقر للاختيار</span></p>
+                    <p>الحجم الأقصى: 5MB | الصيغ المدعومة: JPG, PNG, WebP</p>
+                    <img id="imagePreview" class="image-preview" alt="معاينة الصورة">
+                </div>
+                <input type="file" id="profileImage" accept="image/*" style="display: none;" required>
+                <div class="validation-feedback" id="imageFeedback"></div>
+            </div>
+            
+            <div class="loading-spinner" id="formLoading">
+                <i class="fas fa-spinner fa-spin"></i> جاري إضافة البروفايل...
+            </div>
+            
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>تم إضافة البروفايل بنجاح!</h3>
+                <p>سيتم مراجعة بروفايلك من قبل الإدارة قبل نشره على المنصة.</p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='index.html'">العودة للرئيسية</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">إضافة بروفايل آخر</button>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">إلغاء</button>
+                <button type="submit" class="btn btn-primary" id="submitButton">إضافة البروفايل</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!-- Footer Placeholder -->
+<div id="footer-placeholder"></div>
+
+<!-- Firebase SDK -->
+<script src="/__/firebase/9.22.0/firebase-app-compat.js"></script>
+<script src="/__/firebase/9.22.0/firebase-auth-compat.js"></script>
+<script src="/__/firebase/9.22.0/firebase-firestore-compat.js"></script>
+<script src="/__/firebase/9.22.0/firebase-storage-compat.js"></script>
+
+<!-- App Scripts -->
+<script src="js/firebase-config.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/validators.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/database.js"></script>
+<script src="js/main.js"></script>
+
+<!-- Page Specific Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // تهيئة المكونات
+        initPlatformSelector();
+        initImageUpload();
+        initFormValidation();
+        initCharacterCounter();
+        
+        // تحميل الهيدر والفوتر
+        if (window.componentsManager) {
+            componentsManager.loadComponent('header');
+            componentsManager.loadComponent('footer');
+        }
+    });
+    
+    // تهيئة اختيار المنصة
+    function initPlatformSelector() {
+        const platformOptions = document.querySelectorAll('.platform-option');
+        const selectedPlatformInput = document.getElementById('selectedPlatform');
+        const platformFeedback = document.getElementById('platformFeedback');
+        
+        platformOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // إزالة التحديد من جميع الخيارات
+                platformOptions.forEach(opt => opt.classList.remove('selected'));
+                
+                // تحديد الخيار المختار
+                this.classList.add('selected');
+                
+                // تعيين القيمة في الحقل المخفي
+                selectedPlatformInput.value = this.dataset.platform;
+                
+                // إزالة رسالة الخطأ
+                platformFeedback.textContent = '';
+                platformFeedback.className = 'validation-feedback';
+            });
+        });
+        
+        // التحقق من اختيار المنصة عند إرسال النموذج
+        selectedPlatformInput.addEventListener('invalid', function() {
+            platformFeedback.textContent = 'يجب اختيار منصة التواصل الاجتماعي';
+            platformFeedback.className = 'validation-feedback invalid-feedback';
+        });
+    }
+    
+    // تهيئة رفع الصور
+    function initImageUpload() {
+        const imageUploadArea = document.getElementById('imageUploadArea');
+        const profileImageInput = document.getElementById('profileImage');
+        const imagePreview = document.getElementById('imagePreview');
+        const imageFeedback = document.getElementById('imageFeedback');
+        
+        // النقر على منطقة الرفع
+        imageUploadArea.addEventListener('click', function() {
+            profileImageInput.click();
+        });
+        
+        // سحب وإفلات الصور
+        imageUploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+        
+        imageUploadArea.addEventListener('dragleave', function() {
+            this.classList.remove('dragover');
+        });
+        
+        imageUploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                profileImageInput.files = e.dataTransfer.files;
+                handleImageSelection(e.dataTransfer.files[0]);
+            }
+        });
+        
+        // اختيار الصورة من خلال المدخل
+        profileImageInput.addEventListener('change', function() {
+            if (this.files.length) {
+                handleImageSelection(this.files[0]);
+            }
+        });
+        
+        // معالجة الصورة المختارة
+        function handleImageSelection(file) {
+            // التحقق من نوع الملف
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                imageFeedback.textContent = 'نوع الملف غير مدعوم. المسموح: JPG, PNG, WebP';
+                imageFeedback.className = 'validation-feedback invalid-feedback';
+                return;
+            }
+            
+            // التحقق من حجم الملف (5MB كحد أقصى)
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (file.size > maxSize) {
+                imageFeedback.textContent = 'حجم الملف كبير جداً. الحد الأقصى: 5MB';
+                imageFeedback.className = 'validation-feedback invalid-feedback';
+                return;
+            }
+            
+            // إظهار معاينة الصورة
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+                imageFeedback.textContent = '';
+                imageFeedback.className = 'validation-feedback';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    
+    // تهيئة التحقق من النموذج
+    function initFormValidation() {
+        const form = document.getElementById('addProfileForm');
+        const submitButton = document.getElementById('submitButton');
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // التحقق من تسجيل الدخول
+            if (!window.authManager || !window.authManager.currentUser) {
+                alert('يجب تسجيل الدخول أولاً لإضافة بروفايل');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // التحقق من صحة النموذج
+            if (!validateForm()) {
+                return;
+            }
+            
+            // إظهار مؤشر التحميل
+            document.getElementById('formLoading').style.display = 'block';
+            submitButton.disabled = true;
+            
+            try {
+                // تجميع بيانات النموذج
+                const formData = {
+                    name: document.getElementById('profileName').value.trim(),
+                    username: document.getElementById('profileUsername').value.trim(),
+                    platform: document.getElementById('selectedPlatform').value,
+                    profileLink: document.getElementById('profileLink').value.trim(),
+                    description: document.getElementById('profileDescription').value.trim(),
+                    location: document.getElementById('profileLocation').value.trim(),
+                    hobbies: document.getElementById('profileHobbies').value.trim(),
+                    profileImage: document.getElementById('profileImage').files[0]
+                };
+                
+                // إضافة البروفايل
+                const result = await window.dbManager.addProfile(formData);
+                
+                if (result.success) {
+                    // إظهار رسالة النجاح
+                    document.getElementById('formLoading').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    form.style.display = 'none';
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('Error adding profile:', error);
+                alert('حدث خطأ أثناء إضافة البروفايل: ' + error.message);
+                
+                // إخفاء مؤشر التحميل
+                document.getElementById('formLoading').style.display = 'none';
+                submitButton.disabled = false;
+            }
+        });
+    }
+    
+    // التحقق من صحة النموذج
+    function validateForm() {
+        let isValid = true;
+        
+        // التحقق من الاسم
+        const nameInput = document.getElementById('profileName');
+        const nameValidation = window.FormValidators.validateProfile({ name: nameInput.value });
+        if (!nameValidation.isValid) {
+            showValidationError(nameInput, nameValidation.message);
+            isValid = false;
+        } else {
+            showValidationSuccess(nameInput);
+        }
+        
+        // التحقق من اسم المستخدم
+        const usernameInput = document.getElementById('profileUsername');
+        if (!usernameInput.value.trim()) {
+            showValidationError(usernameInput, 'اسم المستخدم مطلوب');
+            isValid = false;
+        } else {
+            showValidationSuccess(usernameInput);
+        }
+        
+        // التحقق من اختيار المنصة
+        const platformInput = document.getElementById('selectedPlatform');
+        if (!platformInput.value) {
+            document.getElementById('platformFeedback').textContent = 'يجب اختيار منصة التواصل الاجتماعي';
+            document.getElementById('platformFeedback').className = 'validation-feedback invalid-feedback';
+            isValid = false;
+        } else {
+            document.getElementById('platformFeedback').textContent = '';
+            document.getElementById('platformFeedback').className = 'validation-feedback';
+        }
+        
+        // التحقق من رابط الحساب
+        const linkInput = document.getElementById('profileLink');
+        const linkValidation = window.FormValidators.validateProfile({ profileLink: linkInput.value });
+        if (!linkValidation.isValid) {
+            showValidationError(linkInput, linkValidation.message);
+            isValid = false;
+        } else {
+            showValidationSuccess(linkInput);
+        }
+        
+        // التحقق من الوصف
+        const descriptionInput = document.getElementById('profileDescription');
+        if (!descriptionInput.value.trim()) {
+            showValidationError(descriptionInput, 'الوصف مطلوب');
+            isValid = false;
+        } else if (descriptionInput.value.length > 500) {
+            showValidationError(descriptionInput, 'الوصف يجب أن لا يتجاوز 500 حرف');
+            isValid = false;
+        } else {
+            showValidationSuccess(descriptionInput);
+        }
+        
+        // التحقق من الصورة
+        const imageInput = document.getElementById('profileImage');
+        if (!imageInput.files.length) {
+            document.getElementById('imageFeedback').textContent = 'الصورة الشخصية مطلوبة';
+            document.getElementById('imageFeedback').className = 'validation-feedback invalid-feedback';
+            isValid = false;
+        } else {
+            document.getElementById('imageFeedback').textContent = '';
+            document.getElementById('imageFeedback').className = 'validation-feedback';
+        }
+        
+        return isValid;
+    }
+    
+    // إظهار خطأ التحقق
+    function showValidationError(input, message) {
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
+        
+        const feedback = input.parentNode.querySelector('.validation-feedback');
+        if (feedback) {
+            feedback.textContent = message;
+            feedback.className = 'validation-feedback invalid-feedback';
+        }
+    }
+    
+    // إظهار نجاح التحقق
+    function showValidationSuccess(input) {
+        input.classList.add('is-valid');
+        input.classList.remove('is-invalid');
+        
+        const feedback = input.parentNode.querySelector('.validation-feedback');
+        if (feedback) {
+            feedback.textContent = 'صحيح';
+            feedback.className = 'validation-feedback valid-feedback';
+        }
+    }
+    
+    // تهيئة عداد الأحرف
+    function initCharacterCounter() {
+        const descriptionTextarea = document.getElementById('profileDescription');
+        const counter = document.getElementById('descriptionCounter');
+        
+        descriptionTextarea.addEventListener('input', function() {
+            const length = this.value.length;
+            counter.textContent = `${length}/500`;
+            
+            if (length > 450) {
+                counter.className = 'character-counter warning';
+            } else if (length > 500) {
+                counter.className = 'character-counter error';
+            } else {
+                counter.className = 'character-counter';
+            }
+        });
+    }
+    
+    // إعادة تعيين النموذج
+    function resetForm() {
+        document.getElementById('addProfileForm').reset();
+        document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'none';
+        document.getElementById('addProfileForm').style.display = 'block';
+        document.getElementById('submitButton').disabled = false;
+        
+        // إعادة تعيين اختيار المنصة
+        document.querySelectorAll('.platform-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        document.getElementById('selectedPlatform').value = '';
+        
+        // إعادة تعيين التحقق
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.classList.remove('is-valid', 'is-invalid');
+        });
+        
+        document.querySelectorAll('.validation-feedback').forEach(feedback => {
+            feedback.textContent = '';
+            feedback.className = 'validation-feedback';
+        });
+        
+        document.getElementById('descriptionCounter').textContent = '0/500';
+        document.getElementById('descriptionCounter').className = 'character-counter';
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جميع الحسابات - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header" role="banner"></header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>جميع الحسابات</h2>
+                <p>اكتشف آلاف الحسابات عبر مختلف منصات التواصل الاجتماعي</p>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-container">
+                    <div class="filter-title">
+                        <i class="fas fa-filter"></i>
+                        تصفية حسب المنصة
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all" onclick="filterProfiles('all')">
+                            <i class="fas fa-globe"></i>
+                            الكل
+                        </button>
+                        <button class="filter-btn instagram" data-filter="instagram" onclick="filterProfiles('instagram')">
+                            <i class="fab fa-instagram"></i>
+                            انستغرام
+                        </button>
+                        <button class="filter-btn snapchat" data-filter="snapchat" onclick="filterProfiles('snapchat')">
+                            <i class="fab fa-snapchat-ghost"></i>
+                            سناب شات
+                        </button>
+                        <button class="filter-btn tiktok" data-filter="tiktok" onclick="filterProfiles('tiktok')">
+                            <i class="fab fa-tiktok"></i>
+                            تيك توك
+                        </button>
+                        <button class="filter-btn facebook" data-filter="facebook" onclick="filterProfiles('facebook')">
+                            <i class="fab fa-facebook-f"></i>
+                            فيسبوك
+                        </button>
+                        <button class="filter-btn twitter" data-filter="twitter" onclick="filterProfiles('twitter')">
+                            <i class="fab fa-twitter"></i>
+                            تويتر
+                        </button>
+                        <button class="filter-btn youtube" data-filter="youtube" onclick="filterProfiles('youtube')">
+                            <i class="fab fa-youtube"></i>
+                            يوتيوب
+                        </button>
+                    </div>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="ابحث عن حساب..." oninput="searchProfiles()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Counter -->
+            <div class="results-counter">
+                <span id="resultsCount">0</span> حساب معروض
+            </div>
+
+            <!-- Cards Container -->
+            <div class="cards-container" id="profiles-container">
+                <!-- Profiles will be loaded dynamically -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات...
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="form-actions" id="load-more-container" style="display: none;">
+                <button id="load-more-btn" class="btn btn-secondary" onclick="loadMoreProfiles()">
+                    <i class="fas fa-redo"></i>
+                    تحميل المزيد
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" role="contentinfo"></footer>
+    
+    
+    
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <!-- Core Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/AdvancedInputValidator.js"></script>
+    <script src="js/AuthManager.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/headerfooter.js"></script>
+    <!-- <script src="js/force-hard-refresh.js"></script> -->
+    <script src="js/AdminPanel.js"></script>
+    
+    
+    <script>
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let lastVisible = null;
+        const pageSize = 12;
+
+        // Load initial profiles
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadProfiles();
+            
+            // Check URL parameters for platform filter
+            const urlParams = new URLSearchParams(window.location.search);
+            const platform = urlParams.get('platform');
+            if (platform) {
+                filterProfiles(platform);
+            }
+        });
+
+        async function loadProfiles() {
+            try {
+                const filters = currentFilter !== 'all' ? { platform: currentFilter } : {};
+                const profiles = await dbManager.searchProfiles(currentSearch, filters);
+                
+                displayProfiles(profiles);
+                updateResultsCount(profiles.length);
+                
+                // Show/hide load more button
+                const loadMoreContainer = document.getElementById('load-more-container');
+                loadMoreContainer.style.display = profiles.length >= pageSize ? 'block' : 'none';
+                
+            } catch (error) {
+                console.error('Error loading profiles:', error);
+                showError('حدث خطأ في تحميل الحسابات');
+            }
+        }
+
+        async function loadMoreProfiles() {
+            try {
+                // Implement pagination if needed
+                // This is a simplified version - you might want to implement proper pagination
+                await loadProfiles();
+            } catch (error) {
+                console.error('Error loading more profiles:', error);
+                showError('حدث خطأ في تحميل المزيد من الحسابات');
+            }
+        }
+
+        function displayProfiles(profiles) {
+            const container = document.getElementById('profiles-container');
+            
+            if (profiles.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results" style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                        <h3>لا توجد نتائج</h3>
+                        <p>${currentSearch ? 'لم نتمكن من العثور على أي حسابات تطابق معايير البحث' : 'لا توجد حسابات متاحة حالياً'}</p>
+                        ${!currentSearch ? '<a href="add-profile.html" class="btn" style="margin-top: 20px;">كن أول من ينشر حساب</a>' : ''}
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = profiles.map(profile => 
+                redTootApp.createProfileCard(profile)
+            ).join('');
+        }
+
+        function updateResultsCount(count) {
+            document.getElementById('resultsCount').textContent = count;
+        }
+
+        function filterProfiles(filter) {
+            currentFilter = filter;
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadProfiles();
+        }
+
+        function searchProfiles() {
+            currentSearch = document.getElementById('searchInput').value;
+            loadProfiles();
+        }
+
+        function showError(message) {
+            const container = document.getElementById('profiles-container');
+            container.innerHTML = `
+                <div class="no-results" style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                    <h3>حدث خطأ</h3>
+                    <p>${message}</p>
+                    <button class="btn" onclick="loadProfiles()" style="margin-top: 20px;">
+                        <i class="fas fa-redo"></i> إعادة المحاولة
+                    </button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

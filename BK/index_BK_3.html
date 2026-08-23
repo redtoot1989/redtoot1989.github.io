@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedToot - نشر حسابات التواصل الاجتماعي</title>
+
+    <!-- SEO -->
+    <meta name="description" content="منصة RedToot لنشر حسابات التواصل الاجتماعي واكتشاف حسابات جديدة بالمنصات المختلفة.">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main Style -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <div id="header"></div>
+    
+    <!-- Main Content -->
+    <main class="page-content">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>منصة RedToot للتعارف عبر منصات التواصل الاجتماعي</h1>
+                <p>اكتشف أشهر حسابات السوشيال ميديا، أضف أصدقاء جدد، وانشر حسابك مجاناً للآلاف من المستخدمين</p>
+                <div class="hero-buttons">
+                    <a href="add-profile.html" class="btn btn-primary">نشر حسابي الآن</a>
+                    <a href="#platforms" class="btn btn-outline">استكشف المنصات</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-profiles">0</span>
+                        <span class="stat-label">حساب منشور</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-users">0</span>
+                        <span class="stat-label">مستخدم نشط</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="vip-count">0</span>
+                        <span class="stat-label">حساب VIP</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platforms Section -->
+        <section id="platforms" class="platforms-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>منصات التواصل الاجتماعي</h2>
+                    <p>اختر المنصة التي تريد استكشاف حساباتها</p>
+                </div>
+
+                <div class="platforms-grid">
+                    <div class="platform-card instagram" data-platform="instagram">
+                        <div class="platform-icon"><i class="fab fa-instagram"></i></div>
+                        <div class="platform-name">انستغرام</div>
+                        <div class="platform-count"><span id="count-instagram">0</span> حساب</div>
+                    </div>
+
+                    <div class="platform-card snapchat" data-platform="snapchat">
+                        <div class="platform-icon"><i class="fab fa-snapchat-ghost"></i></div>
+                        <div class="platform-name">سناب شات</div>
+                        <div class="platform-count"><span id="count-snapchat">0</span> حساب</div>
+                    </div>
+
+                    <div class="platform-card tiktok" data-platform="tiktok">
+                        <div class="platform-icon"><i class="fab fa-tiktok"></i></div>
+                        <div class="platform-name">تيك توك</div>
+                        <div class="platform-count"><span id="count-tiktok">0</span> حساب</div>
+                    </div>
+
+                    <div class="platform-card facebook" data-platform="facebook">
+                        <div class="platform-icon"><i class="fab fa-facebook-f"></i></div>
+                        <div class="platform-name">فيسبوك</div>
+                        <div class="platform-count"><span id="count-facebook">0</span> حساب</div>
+                    </div>
+
+                    <div class="platform-card twitter" data-platform="twitter">
+                        <div class="platform-icon"><i class="fab fa-twitter"></i></div>
+                        <div class="platform-name">تويتر</div>
+                        <div class="platform-count"><span id="count-twitter">0</span> حساب</div>
+                    </div>
+
+                    <div class="platform-card youtube" data-platform="youtube">
+                        <div class="platform-icon"><i class="fab fa-youtube"></i></div>
+                        <div class="platform-name">يوتيوب</div>
+                        <div class="platform-count"><span id="count-youtube">0</span> حساب</div>
+                    </div>
+
+                    <div class="platform-card whatsapp" data-platform="whatsapp">
+                        <div class="platform-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div class="platform-name">واتساب</div>
+                        <div class="platform-count"><span id="count-whatsapp">0</span> حساب</div>
+                    </div>
+
+                    <div class="platform-card linkedin" data-platform="linkedin">
+                        <div class="platform-icon"><i class="fab fa-linkedin-in"></i></div>
+                        <div class="platform-name">لينكدإن</div>
+                        <div class="platform-count"><span id="count-linkedin">0</span> حساب</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIP Section -->
+        <section class="vip-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-crown"></i> حسابات VIP المميزة</h2>
+                    <a href="vip.html" class="btn btn-vip">اشترك في VIP</a>
+                </div>
+
+                <div class="cards-container" id="vip-profiles">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات المميزة...
+                    </div>
+                </div>
+                
+                <div class="section-footer">
+                    <a href="vip.html" class="btn btn-outline">عرض جميع حسابات VIP</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Profiles -->
+        <section class="recent-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-clock"></i> أحدث الحسابات</h2>
+                    <a href="add-profile.html" class="btn btn-primary">نشر حسابك مجاناً</a>
+                </div>
+
+                <div class="cards-container" id="recent-profiles">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات الجديدة...
+                    </div>
+                </div>
+                
+                <div class="section-footer">
+                    <a href="all-profiles.html" class="btn btn-outline">عرض جميع الحسابات</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>لماذا تختار RedToot؟</h2>
+                    <p>اكتشف المميزات التي تجعلنا المنصة المفضلة للتعارف عبر السوشيال ميديا</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>آمن ومضمون</h3>
+                        <p>جميع الحسابات تخضع للمراجعة والتحقق لضمان جودة المحتوى وأمان المستخدمين</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>انتشار واسع</h3>
+                        <p>وصل إلى آلاف المستخدمين المهتمين وزد فرصتك في اكتشاف حسابك</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3>مميزات VIP</h3>
+                        <p>احصل على مميزات إضافية وظهر في المقدمة مع اشتراك VIP المميز</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <!-- Core Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/validators.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <!-- <script src="js/components.js"></script> -->
+    <script src="js/main.js"></script>
+
+    <!-- Main Script -->
+    <script>
+        // DOM utility functions
+        const $ = (selector, context = document) => context.querySelector(selector);
+        const $$ = (selector, context = document) => context.querySelectorAll(selector);
+
+        // DOM ready function
+        const domReady = (callback) => {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', callback);
+            } else {
+                callback();
+            }
+        };
+
+        // Load external content
+        const loadExternalContent = async (elementId, url) => {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const content = await response.text();
+                $(`#${elementId}`).innerHTML = content;
+                return true;
+            } catch (error) {
+                console.error(`Error loading ${url}:`, error);
+                $(`#${elementId}`).innerHTML = `<div class="error">خطأ في تحميل ${elementId === 'header' ? 'الهيدر' : 'الفوتر'}</div>`;
+                return false;
+            }
+        };
+
+        // Initialize the application
+        const initApp = async () => {
+            console.log('Initializing application...');
+            
+            // Load header and footer
+            await Promise.all([
+                loadExternalContent('header', 'header.html'),
+                loadExternalContent('footer', 'footer.html')
+            ]);
+            
+            // Initialize components
+            initializeHeader();
+            initializeFooter();
+            
+            // Load home page data
+            setTimeout(loadHomePageData, 500);
+        };
+
+        function initializeHeader() {
+            console.log('Initializing header...');
+            
+            // Add mobile menu functionality
+            const mobileMenu = $('.mobile-menu');
+            const navLinks = $('.nav-links');
+            const body = document.body;
+            
+            if (mobileMenu && navLinks) {
+                mobileMenu.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    body.classList.toggle('menu-open');
+                });
+
+                // Close mobile menu when clicking on links
+                const navLinksItems = $$('.nav-links a');
+                navLinksItems.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        body.classList.remove('menu-open');
+                    });
+                });
+            }
+
+            // Check authentication status
+            checkAuthStatus();
+        }
+
+        function initializeFooter() {
+            console.log('Initializing footer...');
+            // Add any footer-specific initialization here
+        }
+
+        function checkAuthStatus() {
+            // Check if user is logged in
+            const user = localStorage.getItem('currentUser');
+            const userName = $('#user-name');
+            const userMenu = $('#user-menu');
+            const authButtons = $('#auth-buttons');
+            const adminLink = $('#admin-link');
+            
+            if (user && userName && userMenu && authButtons) {
+                try {
+                    const userData = JSON.parse(user);
+                    userName.textContent = userData.name || userData.email;
+                    userMenu.style.display = 'block';
+                    authButtons.style.display = 'none';
+                    
+                    if (userData.role === 'admin' && adminLink) {
+                        adminLink.style.display = 'block';
+                    }
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                }
+            }
+        }
+
+        async function loadHomePageData() {
+            try {
+                console.log('Loading home page data...');
+                
+                // Check if dbManager is available
+                if (typeof dbManager === 'undefined') {
+                    console.warn('dbManager not available yet, retrying...');
+                    setTimeout(loadHomePageData, 500);
+                    return;
+                }
+
+                // Load VIP profiles
+                const vipProfiles = await dbManager.getVipProfiles();
+                const vipContainer = $('#vip-profiles');
+
+                if (vipProfiles && vipProfiles.length > 0) {
+                    vipContainer.innerHTML = vipProfiles.map(p => redTootApp.createProfileCard(p)).join('');
+                } else {
+                    vipContainer.innerHTML = '<div class="no-results"><i class="fas fa-crown"></i><h3>لا توجد حسابات VIP حالياً</h3><p>كن أول من ينشر حساب VIP مميز</p></div>';
+                }
+
+                // Load recent profiles
+                const recentProfiles = await dbManager.getRecentProfiles();
+                const recentContainer = $('#recent-profiles');
+
+                if (recentProfiles && recentProfiles.length > 0) {
+                    recentContainer.innerHTML = recentProfiles.map(p => redTootApp.createProfileCard(p)).join('');
+                } else {
+                    recentContainer.innerHTML = '<div class="no-results"><i class="fas fa-users"></i><h3>لا توجد حسابات جديدة</h3><p>كن أول من ينشر حساب على المنصة</p></div>';
+                }
+
+                // Load platform counts and statistics
+                loadPlatformCounts();
+                loadStatistics();
+
+            } catch (err) {
+                console.error("Error loading home page data:", err);
+                showErrorMessage('حدث خطأ في تحميل البيانات. يرجى المحاولة مرة أخرى.');
+            }
+        }
+
+        function loadPlatformCounts() {
+            // Simulate platform counts for demo
+            const platformCounts = {
+                'instagram': 342,
+                'snapchat': 215,
+                'tiktok': 189,
+                'facebook': 156,
+                'twitter': 98,
+                'youtube': 76,
+                'whatsapp': 203,
+                'linkedin': 45
+            };
+            
+            Object.keys(platformCounts).forEach(platform => {
+                const element = $(`#count-${platform}`);
+                if (element) {
+                    element.textContent = platformCounts[platform];
+                }
+            });
+        }
+
+        function loadStatistics() {
+            // Simulate statistics for demo
+            const totalProfiles = $('#total-profiles');
+            const totalUsers = $('#total-users');
+            const vipCount = $('#vip-count');
+            
+            if (totalProfiles) totalProfiles.textContent = '1,234';
+            if (totalUsers) totalUsers.textContent = '5,678';
+            if (vipCount) vipCount.textContent = '89';
+        }
+
+        function showErrorMessage(message) {
+            // Create error message display
+            const errorHtml = `
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    ${message}
+                </div>
+            `;
+            const pageContent = $('.page-content');
+            if (pageContent) {
+                pageContent.insertAdjacentHTML('afterbegin', errorHtml);
+                
+                // Remove error after 5 seconds
+                setTimeout(() => {
+                    const errorElement = $('.alert-error');
+                    if (errorElement) {
+                        errorElement.style.opacity = '0';
+                        setTimeout(() => {
+                            if (errorElement.parentNode) {
+                                errorElement.parentNode.removeChild(errorElement);
+                            }
+                        }, 500);
+                    }
+                }, 5000);
+            }
+        }
+
+        // Event delegation for platform cards
+        document.addEventListener('click', (e) => {
+            const platformCard = e.target.closest('.platform-card');
+            if (platformCard) {
+                const platform = platformCard.dataset.platform;
+                window.location.href = `all-profiles.html?platform=${platform}`;
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href^="#"]');
+            if (link) {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const target = $(targetId);
+                if (target) {
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - 80;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+
+        // Initialize the app when DOM is ready
+        domReady(initApp);
+    </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنصات - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Red<span>Toot</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="vip.html">حسابات VIP</a></li>
+                <li><a href="platforms.html" class="active">المنصات</a></li>
+                <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                <li><a href="add-profile.html">نشر حساب</a></li>
+                <li id="admin-link" style="display: none;"><a href="admin.html">لوحة التحكم</a></li>
+            </ul>
+            <div class="header-actions">
+                <div id="user-menu" class="user-menu" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar"></div>
+                        <span id="user-name"></span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+                </div>
+                <div id="auth-buttons">
+                    <a href="register.html" class="btn">إنشاء حساب</a>
+                    <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+                </div>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>منصات التواصل الاجتماعي</h2>
+                <p>اختر المنصة التي تريد استكشاف حساباتها</p>
+            </div>
+
+            <!-- Platforms Grid -->
+            <div class="platforms-grid">
+                <div class="platform-card instagram" onclick="window.location.href='all-profiles.html?platform=instagram'">
+                    <div class="platform-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div class="platform-name">انستغرام</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="instagram-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card snapchat" onclick="window.location.href='all-profiles.html?platform=snapchat'">
+                    <div class="platform-icon">
+                        <i class="fab fa-snapchat-ghost"></i>
+                    </div>
+                    <div class="platform-name">سناب شات</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="snapchat-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card tiktok" onclick="window.location.href='all-profiles.html?platform=tiktok'">
+                    <div class="platform-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <div class="platform-name">تيك توك</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="tiktok-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card facebook" onclick="window.location.href='all-profiles.html?platform=facebook'">
+                    <div class="platform-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="platform-name">فيسبوك</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="facebook-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card twitter" onclick="window.location.href='all-profiles.html?platform=twitter'">
+                    <div class="platform-icon">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <div class="platform-name">تويتر</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="twitter-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card youtube" onclick="window.location.href='all-profiles.html?platform=youtube'">
+                    <div class="platform-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="platform-name">يوتيوب</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="youtube-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card whatsapp" onclick="window.location.href='all-profiles.html?platform=whatsapp'">
+                    <div class="platform-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="platform-name">واتساب</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="whatsapp-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+                
+                <div class="platform-card linkedin" onclick="window.location.href='all-profiles.html?platform=linkedin'">
+                    <div class="platform-icon">
+                        <i class="fab fa-linkedin-in"></i>
+                    </div>
+                    <div class="platform-name">لينكدإن</div>
+                    <div class="platform-stats">
+                        <span class="stat-number" id="linkedin-count">0</span>
+                        <span class="stat-label">حساب</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Profiles Section -->
+            <section class="vip-section" style="margin-top: 60px;">
+                <div class="container">
+                    <div class="navtitle">
+                        <h3><i class="fas fa-fire"></i> الحسابات الشائعة</h3>
+                        <a href="all-profiles.html" class="badge">عرض الكل</a>
+                    </div>
+                    <div class="cards-container" id="popular-profiles">
+                        <!-- Popular profiles will be loaded dynamically -->
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات الشائعة...
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>RedToot</h3>
+                    <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-snapchat-ghost"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>الأقسام</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="vip.html">حسابات VIP</a></li>
+                        <li><a href="add-profile.html">نشر حساب</a></li>
+                        <li><a href="platforms.html">المنصات</a></li>
+                        <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">عن الموقع</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2023 RedToot</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Load platform statistics and popular profiles
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Load platform counts
+                const platforms = ['instagram', 'snapchat', 'tiktok', 'facebook', 'twitter', 'youtube', 'whatsapp', 'linkedin'];
+                
+                for (const platform of platforms) {
+                    const count = await getPlatformCount(platform);
+                    document.getElementById(`${platform}-count`).textContent = count;
+                }
+
+                // Load popular profiles (most viewed)
+                const popularProfiles = await getPopularProfiles();
+                const container = document.getElementById('popular-profiles');
+                
+                if (popularProfiles.length > 0) {
+                    container.innerHTML = popularProfiles.map(profile => 
+                        redTootApp.createProfileCard(profile)
+                    ).join('');
+                } else {
+                    container.innerHTML = `
+                        <div class="no-results" style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                            <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                            <h3>لا توجد حسابات شائعة بعد</h3>
+                            <p>كن أول من ينشر حساب على المنصة</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading platform data:', error);
+            }
+        });
+
+        async function getPlatformCount(platform) {
+            try {
+                const snapshot = await db.collection('profiles')
+                    .where('status', '==', 'approved')
+                    .where('platform', '==', platform)
+                    .get();
+                return snapshot.size;
+            } catch (error) {
+                console.error(`Error getting ${platform} count:`, error);
+                return 0;
+            }
+        }
+
+        async function getPopularProfiles() {
+            try {
+                const snapshot = await db.collection('profiles')
+                    .where('status', '==', 'approved')
+                    .orderBy('views', 'desc')
+                    .limit(8)
+                    .get();
+                
+                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (error) {
+                console.error('Error getting popular profiles:', error);
+                return [];
+            }
+        }
+    </script>
+</body>
+</html>

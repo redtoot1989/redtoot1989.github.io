@@ -1,0 +1,17 @@
+ <script src="/js/error-monitor.js"></script>
+<script>
+    // Initialize monitoring
+    const EM = new ErrorMonitor({
+        reportEndpoint: "/api/log-error", // optional
+        enableUI: true,
+        enableConsole: true
+    });
+
+    // Initialize your app safely
+    try {
+        window.mainApp = new MainApp();
+    } catch (err) {
+        EM.handleError("App Initialization Error", EM.extractError(err));
+    }
+</script>
+
