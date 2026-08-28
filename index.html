@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <title>RedToot - نشر حسابات التواصل الاجتماعي</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e53935">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com data:; img-src 'self' https: data:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://*.google-analytics.com https://www.google-analytics.com; frame-src https://*.firebaseapp.com;">
+    <link rel="manifest" href="manifest.json">
+    <meta name="description" content="منصة RedToot لنشر حسابات التواصل الاجتماعي واكتشاف حسابات جديدة بالمنصات المختلفة.">
+    <meta property="og:title" content="RedToot - نشر حسابات التواصل الاجتماعي">
+    <meta property="og:description" content="انشر حسابك واكتشف حسابات عربية على انستغرام، سناب شات، تيك توك، يوتيوب والمزيد.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://redtoot1989.github.io/">
+    <meta property="og:image" content="https://redtoot1989.github.io/favicon.ico">
+    <meta name="twitter:card" content="summary">
+    <link rel="canonical" href="https://redtoot1989.github.io/">
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a class="skip-link" href="#main-content">تخطي إلى المحتوى</a>
+    <!-- Header -->
+    <header id="header" role="banner"></header>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="page-content">
+
+        <!-- Hero Section -->
+        <section class="hero" aria-label="Hero Section">
+            <div class="container hero-content">
+                <h1>منصة RedToot للتعارف عبر منصات التواصل الاجتماعي</h1>
+                <p>اكتشف أشهر حسابات السوشيال ميديا، أضف أصدقاء جدد، وانشر حسابك مجاناً للآلاف من المستخدمين</p>
+                <div class="hero-buttons">
+                    <a href="add-profile.html" class="btn btn-outline" aria-label="نشر حسابك الآن">نشر حسابي الآن</a>
+                    <a href="#platforms" class="btn btn-outline" aria-label="استكشف المنصات">استكشف المنصات</a>
+                </div>
+                <div class="hero-stats" aria-label="إحصائيات المنصة">
+                    <div class="stat-item">
+                        <span class="sr-only">عدد الحسابات المنشورة:</span>
+                        <span class="stat-number" id="total-profiles">0</span>
+                        <span class="stat-label">حساب منشور</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="sr-only">عدد المستخدمين النشطين:</span>
+                        <span class="stat-number" id="total-users">0</span>
+                        <span class="stat-label">مستخدم نشط</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="sr-only">عدد حسابات VIP:</span>
+                        <span class="stat-number" id="vip-count">0</span>
+                        <span class="stat-label">حساب VIP</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platforms Section -->
+        <section id="platforms" class="platforms-section" aria-label="منصات التواصل الاجتماعي">
+            <div class="container">
+                <div class="section-title">
+                    <h2>منصات التواصل الاجتماعي</h2>
+                    <p>اختر المنصة التي تريد استكشاف حساباتها</p>
+                </div>
+                <div class="platforms-grid">
+                    <!-- Cards dynamically populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VIP Section -->
+        <section class="vip-section" aria-label="حسابات VIP">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-crown"></i> حسابات VIP المميزة</h2>
+                    <a href="vip.html" class="btn btn-vip">اشترك في VIP</a>
+                </div>
+                <div class="cards-container" id="vip-profiles">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات المميزة...</div>
+                </div>
+                <div class="section-footer">
+                    <a href="vip.html" class="btn btn-outline">عرض جميع حسابات VIP</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Profiles -->
+        <section class="recent-section" aria-label="أحدث الحسابات">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-clock"></i> أحدث الحسابات</h2>
+                    <a href="add-profile.html" class="btn btn-primary">نشر حسابك مجاناً</a>
+                </div>
+                <div class="cards-container" id="recent-profiles">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات الجديدة...</div>
+                </div>
+                <div class="section-footer">
+                    <a href="all-profiles.html" class="btn btn-outline">عرض جميع الحسابات</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section" aria-label="مميزات المنصة">
+            <div class="container">
+                <div class="section-title">
+                    <h2>لماذا تختار RedToot؟</h2>
+                    <p>اكتشف المميزات التي تجعلنا المنصة المفضلة للتعارف عبر السوشيال ميديا</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>آمن ومضمون</h3>
+                        <p>بلاغات المستخدمين ولوحة التحكم تساعد على إزالة الحسابات المخالفة بسرعة</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                        <h3>انتشار واسع</h3>
+                        <p>وصل إلى آلاف المستخدمين المهتمين وزد فرصتك في اكتشاف حسابك</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-crown"></i></div>
+                        <h3>مميزات VIP</h3>
+                        <p>احصل على مميزات إضافية وظهر في المقدمة مع اشتراك VIP المميز</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" role="contentinfo"></footer>
+
+    <!-- Firebase SDK -->
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <!-- Core Scripts -->
+    <script defer src="js/config.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/AdvancedInputValidator.js"></script>
+    <script defer src="js/AuthManager.js"></script>
+    <script defer src="js/database.js"></script>
+    <script defer src="js/db.js"></script>
+    <script defer src="js/main.js"></script>
+    <script defer src="js/headerfooter.js"></script>
+    <!-- <script src="js/force-hard-refresh.js"></script> -->
+    <script defer src="js/AdminPanel.js"></script>
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+</body>
+</html>

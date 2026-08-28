@@ -1,0 +1,76 @@
+<!-- admin.html - نسخة مطوّرة بالكامل مع إمكانية الحجب والحذف -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#e53935">
+    <link rel="manifest" href="manifest.json">
+    <title>لوحة التحكم</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- الهيدر -->
+<div id="header"></div>
+
+<div class="container">
+    <h1 class="page-title">لوحة التحكم</h1>
+
+    <!-- إحصائيات الموقع -->
+    <section class="card">
+        <h2>الإحصائيات</h2>
+        <div class="stats-box">
+            <div class="stat-item">إجمالي الحسابات: <span id="totalProfiles">0</span></div>
+            <div class="stat-item">الحسابات المحجوبة: <span id="blockedProfiles">0</span></div>
+        </div>
+    </section>
+
+    <!-- إدارة الحسابات -->
+    <section class="card">
+        <h2>إدارة الحسابات</h2>
+        <table class="admin-table" id="profilesTable">
+            <thead>
+                <tr>
+                    <th>الصورة</th>
+                    <th>الاسم</th>
+                    <th>الوصف</th>
+                    <th>الحالة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="profilesList"></tbody>
+        </table>
+    </section>
+
+</div>
+
+<!-- الفوتر -->
+<div id="footer"></div>
+
+
+
+
+
+    <!-- Firebase SDK -->
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <!-- Core Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/AdvancedInputValidator.js"></script>
+    <script src="js/AuthManager.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/headerfooter.js"></script>
+    <!-- <script src="js/force-hard-refresh.js"></script> -->
+    <script src="js/AdminPanel.js"></script>
+
+
+</body>
+</html>
+

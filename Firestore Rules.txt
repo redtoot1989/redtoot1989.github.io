@@ -1,0 +1,207 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Auth helpers. Admins are regular Firebase Auth users with role/isAdmin in /users/{uid}.
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && (userDoc().data.isAdmin == true || userDoc().data.role == 'admin');
+    }
+
+    // Keep client platform submissions aligned with js/config.js.
+    function validPlatform(platform) {
+      return platform in [
+        'instagram', 'snapchat', 'tiktok', 'youtube', 'x', 'twitter',
+        'facebook', 'whatsapp', 'telegram', 'jaco'
+      ];
+    }
+
+    // Public submissions may omit profileLink; provided links must use HTTPS.
+    function validUrlOrEmpty(url) {
+      return url is string
+        && url.size() <= 500
+        && (url.size() == 0 || url.matches('https://.+'));
+    }
+
+    // Guest and registered users can publish a complete, immediately approved profile.
+    function validPublicProfile(data) {
+      return data.keys().hasOnly([
+          'id', 'platform', 'name', 'username', 'profileLink', 'status',
+          'createdAt', 'updatedAt', 'isVip', 'vipExpiry', 'category',
+          'location', 'ageRange', 'age', 'gender', 'hobbies', 'description',
+          'ownerId', 'userId', 'userEmail', 'submittedBy', 'isBlocked',
+          'views', 'likes', 'shares', 'reports', 'reportCount', 'favoriteCount'
+        ])
+        && data.id is string
+        && validPlatform(data.platform)
+        && data.name is string
+        && data.name.size() >= 2
+        && data.name.size() <= 80
+        && data.username is string
+        && data.username.size() >= 2
+        && data.username.size() <= 80
+        && validUrlOrEmpty(data.profileLink)
+        && data.status == 'approved'
+        && data.submittedBy in ['guest', 'registered']
+        && data.isVip == false
+        && data.vipExpiry == null
+        && data.isBlocked == false
+        && data.category is string
+        && data.category.size() <= 40
+        && data.location is string
+        && data.location.size() <= 80
+        && data.ageRange is string
+        && data.ageRange.size() <= 20
+        && data.gender is string
+        && data.gender.size() <= 20
+        && data.hobbies is list
+        && data.description is string
+        && data.description.size() <= 500
+        && data.views == 0
+        && data.likes == 0
+        && data.shares == 0
+        && data.reports == 0
+        && data.reportCount == 0
+        && data.favoriteCount == 0;
+    }
+
+    // Allow only operational counters from public UI flows:
+    // views for everyone, favorites/reports for signed-in users.
+    function validProfileCounterUpdate() {
+      let changed = request.resource.data.diff(resource.data).changedKeys();
+      return resource.data.status == 'approved'
+        && request.resource.data.status == resource.data.status
+        && changed.hasOnly(['views', 'favoriteCount', 'reportCount', 'updatedAt'])
+        && (!changed.hasAny(['views'])
+          || request.resource.data.views == resource.data.views + 1)
+        && (!changed.hasAny(['favoriteCount'])
+          || (signedIn()
+            && request.resource.data.favoriteCount >= 0
+            && (request.resource.data.favoriteCount == resource.data.favoriteCount + 1
+              || request.resource.data.favoriteCount == resource.data.favoriteCount - 1)))
+        && (!changed.hasAny(['reportCount'])
+          || (signedIn()
+            && request.resource.data.reportCount == resource.data.reportCount + 1));
+    }
+
+    function validSelfUserKeys(userId) {
+      return signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly([
+          'username', 'displayName', 'email', 'photoURL', 'emailVerified',
+          'lastLogin', 'updatedAt', 'createdAt', 'isAdmin', 'isVip',
+          'isBlocked', 'status', 'role', 'fcmTokens'
+        ]);
+    }
+
+    function validSelfUserCreate(userId) {
+      return validSelfUserKeys(userId)
+        && (!('isAdmin' in request.resource.data) || request.resource.data.isAdmin == false)
+        && (!('isVip' in request.resource.data) || request.resource.data.isVip == false)
+        && (!('role' in request.resource.data) || request.resource.data.role == 'user')
+        && (!('status' in request.resource.data) || request.resource.data.status in ['active', 'disabled']);
+    }
+
+    function validSelfUserUpdate(userId) {
+      return validSelfUserKeys(userId)
+        && request.resource.data.diff(resource.data).changedKeys().hasOnly([
+          'username', 'displayName', 'email', 'photoURL', 'emailVerified',
+          'lastLogin', 'updatedAt', 'status', 'fcmTokens'
+        ])
+        && (!request.resource.data.diff(resource.data).changedKeys().hasAny(['status'])
+          || request.resource.data.status in ['active', 'disabled']);
+    }
+
+    match /profiles/{profileId} {
+      // Approved profiles are public. Owners can read their own drafts/blocked records.
+      allow read: if resource.data.status == 'approved' || isAdmin() || (signedIn() && resource.data.ownerId == request.auth.uid);
+      allow create: if validPublicProfile(request.resource.data);
+      // Admins can moderate everything. Owners can edit content fields. Counters are restricted above.
+      allow update: if isAdmin()
+        || validProfileCounterUpdate()
+        || (signedIn()
+          && resource.data.ownerId == request.auth.uid
+          && request.resource.data.diff(resource.data).changedKeys().hasOnly([
+            'name', 'username', 'profileLink', 'category', 'location',
+            'ageRange', 'age', 'gender', 'hobbies', 'description', 'updatedAt'
+          ]));
+      allow delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      // Users manage their own account document; admins can inspect user records.
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == userId);
+      allow create: if validSelfUserCreate(userId);
+      allow update: if isAdmin() || validSelfUserUpdate(userId);
+      allow delete: if isAdmin() || (signedIn() && request.auth.uid == userId);
+    }
+
+    match /favorites/{favoriteId} {
+      // Favorites are private to the owning user and keyed as uid_profileId to prevent duplicates.
+      allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.profileId is string
+        && favoriteId == request.auth.uid + '_' + request.resource.data.profileId;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+      allow update: if false;
+    }
+
+    match /reports/{reportId} {
+      // Users can create reports. Only admins review/update/delete them.
+      allow read, update, delete: if isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.profileId is string
+        && request.resource.data.reason is string
+        && request.resource.data.reason.size() >= 3
+        && request.resource.data.reason.size() <= 500
+        && request.resource.data.status == 'open';
+    }
+
+    match /vip_subscriptions/{subscriptionId} {
+      // VIP approval is admin-only; users can only read their own subscription records.
+      allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /notifications/{notificationId} {
+      // Admins create notifications; users read and mark their own as read.
+      allow read, update: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+      allow create, delete: if isAdmin();
+    }
+
+    match /categories/{categoryId} {
+      // Public taxonomy reads; admin-only management.
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /platforms/{platformId} {
+      // Public platform reads; admin-only management.
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      // Operational collections are admin-only.
+      allow read, write: if isAdmin();
+    }
+
+    match /site_statistics/{statId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /audit_logs/{logId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

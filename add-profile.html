@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e53935">
+    <link rel="manifest" href="manifest.json">
+    <title>نشر حساب - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+
+
+
+</head>
+<body>
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+    <!-- Header -->
+    <header id="header" role="banner"></header>
+
+
+    <!-- Add Profile Page Content -->
+    <div class="page-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>نشر حساب جديد</h2>
+                <p>أضف حسابك مباشرة بدون تسجيل وسيظهر في الموقع فور الإرسال</p>
+            </div>
+
+            <div class="form-container">
+                <form id="addProfileForm" novalidate>
+                    <!-- المنصة -->
+                    <div class="form-group">
+                        <label class="form-label" for="platform">اختر المنصة</label>
+                        <div class="platform-select">
+                            <select id="platform" name="platform" class="form-select" required aria-describedby="platform-feedback">
+                                <option value="">اختر منصة التواصل الاجتماعي</option>
+                                <option value="instagram" data-icon="instagram">انستغرام</option>
+                                <option value="snapchat" data-icon="snapchat-ghost">سناب شات</option>
+                                <option value="tiktok" data-icon="tiktok">تيك توك</option>
+                                <option value="facebook" data-icon="facebook-f">فيسبوك</option>
+                                <option value="twitter" data-icon="twitter">تويتر</option>
+                                <option value="youtube" data-icon="youtube">يوتيوب</option>
+                                <option value="whatsapp" data-icon="whatsapp">واتساب</option>
+                                <option value="telegram" data-icon="telegram">تيليجرام</option>
+                            </select>
+                        </div>
+                        <div class="validation-feedback invalid-feedback" id="platform-feedback"></div>
+                    </div>
+
+                    <!-- اسم المستخدم -->
+                    <div class="form-group">
+                        <label class="form-label" for="username">اسم المستخدم</label>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="اسم المستخدم على المنصة" required minlength="2" maxlength="50" pattern="^[A-Za-z0-9_\u0600-\u06FF-]+$" aria-describedby="username-feedback">
+                        <div class="validation-feedback invalid-feedback" id="username-feedback"></div>
+                    </div>
+
+                    <!-- الاسم الظاهر -->
+                    <div class="form-group">
+                        <label class="form-label" for="name">الاسم الظاهر <span class="optional-label">اختياري</span></label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="اتركه فارغا لاستخدام اسم المستخدم" maxlength="80" aria-describedby="name-feedback">
+                        <div class="validation-feedback invalid-feedback" id="name-feedback"></div>
+                    </div>
+
+                    <!-- رابط الحساب -->
+                    <div class="form-group">
+                        <label class="form-label" for="profileLink">رابط الحساب <span class="optional-label">اختياري</span></label>
+                        <input type="url" id="profileLink" name="profileLink" class="form-control" placeholder="إذا تركته فارغا سيتم استخدام اسم المستخدم" maxlength="500" aria-describedby="profileLink-feedback">
+                        <div class="validation-feedback invalid-feedback" id="profileLink-feedback"></div>
+                    </div>
+
+                    <!-- أزرار الإجراءات -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn" id="submitBtn" style="padding: 12px 40px;">
+                            <i class="fas fa-plus"></i>
+                            نشر الحساب
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="resetForm">
+                            <i class="fas fa-redo"></i>
+                            إعادة تعيين
+                        </button>
+                    </div>
+
+                    <!-- ملاحظة -->
+                    <div class="form-note">
+                        بالنقر على "نشر الحساب"، فإنك توافق على <a href="terms.html">شروط الاستخدام</a> و <a href="privacy.html">سياسة الخصوصية</a> الخاصة بنا.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer" role="contentinfo"></footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Core Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/AdvancedInputValidator.js"></script>
+    <script src="js/AuthManager.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/headerfooter.js"></script>
+    <!-- <script src="js/force-hard-refresh.js"></script> -->
+    <script src="js/AdminPanel.js"></script>
+    
+    
+
+    <script>
+        // Update platform icons based on selection
+        document.getElementById('platform').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const iconClass = selectedOption.getAttribute('data-icon');
+            
+            // Remove existing icons
+            const existingIcons = document.querySelectorAll('.platform-select i');
+            existingIcons.forEach(icon => icon.remove());
+            
+            // Add new icon if available
+            if (iconClass) {
+                const icon = document.createElement('i');
+                icon.className = `fab fa-${iconClass}`;
+                
+                // Set color based on platform
+                const platform = selectedOption.value;
+                const colors = {
+                    'instagram': '#E1306C',
+                    'snapchat': '#FFFC00',
+                    'tiktok': '#000000',
+                    'facebook': '#1877F2',
+                    'twitter': '#1DA1F2',
+                    'youtube': '#FF0000',
+                    'whatsapp': '#25D366',
+                    'telegram': '#0088cc'
+                };
+                
+                icon.style.color = colors[platform] || '#333';
+                
+                document.querySelector('.platform-select').appendChild(icon);
+            }
+        });
+
+        // Form submission
+        const addProfileForm = document.getElementById('addProfileForm');
+        addProfileForm.querySelectorAll('input, select').forEach(field => {
+            field.addEventListener('blur', () => validateField(field));
+            field.addEventListener('input', () => clearField(field));
+        });
+
+        addProfileForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const fields = Array.from(this.querySelectorAll('input, select'));
+            if (!fields.every(validateField)) return;
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalHtml = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري النشر...';
+
+            try {
+                const formData = new FormData(this);
+                const profile = {
+                    platform: formData.get('platform'),
+                    name: formData.get('name'),
+                    username: formData.get('username'),
+                    location: '',
+                    age: '',
+                    gender: '',
+                    hobbies: [],
+                    profileLink: formData.get('profileLink')
+                };
+
+                if (!window.dbManager) throw new Error('قاعدة البيانات غير جاهزة، حاول مرة أخرى');
+                await window.dbManager.addProfile(profile);
+
+                alert('تم نشر حسابك بنجاح!');
+                resetForm();
+            } catch (error) {
+                alert(error.message || 'تعذر إرسال الطلب');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalHtml;
+            }
+        });
+
+        // Reset form
+        document.getElementById('resetForm').addEventListener('click', resetForm);
+        
+        function resetForm() {
+            document.getElementById('addProfileForm').reset();
+            
+            // Remove platform icon
+            const existingIcons = document.querySelectorAll('.platform-select i');
+            existingIcons.forEach(icon => icon.remove());
+            document.querySelectorAll('.validation-feedback').forEach(el => el.textContent = '');
+            document.querySelectorAll('.is-invalid, .is-valid').forEach(el => el.classList.remove('is-invalid', 'is-valid'));
+        }
+
+        function validateField(field) {
+            const feedback = document.getElementById(`${field.id}-feedback`);
+            let message = '';
+
+            if (field.required && !field.value.trim()) message = 'هذا الحقل مطلوب';
+            else if (field.validity.tooShort) message = `الحد الأدنى ${field.minLength} أحرف`;
+            else if (field.validity.tooLong) message = `الحد الأقصى ${field.maxLength} حرف`;
+            else if (field.validity.typeMismatch) message = 'صيغة الرابط غير صحيحة';
+            else if (field.validity.patternMismatch) message = 'استخدم حروفا أو أرقاما أو _ أو - فقط';
+
+            field.classList.toggle('is-invalid', !!message);
+            field.classList.toggle('is-valid', !message && !!field.value.trim());
+            if (feedback) feedback.textContent = message;
+            return !message;
+        }
+
+        function clearField(field) {
+            field.classList.remove('is-invalid');
+            document.getElementById(`${field.id}-feedback`)?.replaceChildren();
+        }
+
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', function() {
+                const navLinks = document.querySelector('.nav-links');
+                if (navLinks) navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+        }
+    </script>
+</body>
+</html>

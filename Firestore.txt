@@ -1,0 +1,15 @@
+3. Database Structure
+
+Firestore Collections:
+
+    users - User accounts
+
+    profiles - Social media profiles
+
+    vip_subscriptions - VIP subscriptions
+
+    categories - Profile categories
+
+    reports - User reports
+
+    settings - App settings 
