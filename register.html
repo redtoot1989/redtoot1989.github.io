@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e53935">
+    <link rel="manifest" href="manifest.json">
+    <title>إنشاء حساب - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header" role="banner"></header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="form-container">
+                <h2 class="form-title">إنشاء حساب جديد</h2>
+                
+                <!-- Alert Messages -->
+                <div id="alert-success" class="alert alert-success" style="display: none;"></div>
+                <div id="alert-error" class="alert alert-error" style="display: none;"></div>
+                <div id="alert-warning" class="alert alert-warning" style="display: none;"></div>
+                
+                <!-- Loading Indicator -->
+                <div id="loading" class="loading" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i> جاري المعالجة...
+                </div>
+                
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="reg-username">اسم المستخدم</label>
+                        <input type="text" id="reg-username" class="form-control" placeholder="أدخل اسم المستخدم" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">البريد الإلكتروني</label>
+                        <input type="email" id="reg-email" class="form-control" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">كلمة المرور</label>
+                        <input type="password" id="reg-password" class="form-control" placeholder="أدخل كلمة المرور" required>
+                        <small style="color: var(--gray); font-size: 0.8rem;">كلمة المرور يجب أن تكون 6 أحرف على الأقل</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-confirm-password">تأكيد كلمة المرور</label>
+                        <input type="password" id="reg-confirm-password" class="form-control" placeholder="أعد إدخال كلمة المرور" required>
+                    </div>
+                    <div class="terms-agreement">
+                        <input type="checkbox" id="agree-terms" required>
+                        <label for="agree-terms">أوافق على <a href="terms.html">شروط الاستخدام</a> و <a href="privacy.html">سياسة الخصوصية</a></label>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;" id="register-btn">
+                        <span class="btn-text">إنشاء حساب</span>
+                    </button>
+                </form>
+                
+                <!-- Divider -->
+                <div class="divider">
+                    <span>أو</span>
+                </div>
+                
+                <!-- Google Sign In Button -->
+                <button id="google-signin" class="btn btn-google">
+                    <span class="btn-text">
+                        <div class="google-icon">G</div>
+                        تسجيل الدخول باستخدام جوجل
+                    </span>
+                </button>
+                
+                <div class="form-footer">
+                    <p>هل لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" role="contentinfo"></footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <!-- Core Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/validators.js"></script>
+    <script src="js/AuthManager.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/headerfooter.js"></script>
+    <!-- <script src="js/force-hard-refresh.js"></script> -->
+    
+    <script>
+        let isRegistering = false;
+
+        // Regular form registration
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            isRegistering = true;
+            
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const registerBtn = document.getElementById('register-btn');
+            
+            // Validation
+            if (password !== confirmPassword) {
+                showAlert('كلمات المرور غير متطابقة!', 'error');
+                document.getElementById('reg-confirm-password').classList.add('error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAlert('كلمة المرور يجب أن تكون 6 أحرف على الأقل', 'error');
+                return;
+            }
+            
+            // Show loading
+            toggleLoading(true);
+            setButtonLoading(registerBtn, true);
+            
+            try {
+                const result = window.authManager?.registerWithEmail
+                    ? await window.authManager.registerWithEmail(email, password, { username })
+                    : await legacyRegister(email, password, username);
+
+                if (result?.success === false) throw { code: result.code, message: result.error };
+                
+                // Show success message
+                showAlert('تم إنشاء الحساب بنجاح! يمكنك الدخول الآن.', 'success');
+                
+                // Redirect to home page after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1200);
+                
+            } catch (error) {
+                let errorMessage = 'حدث خطأ أثناء إنشاء الحساب';
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'هذا البريد الإلكتروني مستخدم بالفعل';
+                } else if (error.code === 'auth/invalid-credential') {
+                    errorMessage = 'بيانات الحساب غير صحيحة';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'البريد الإلكتروني غير صالح';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'كلمة المرور ضعيفة جداً';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'خطأ في الشبكة، يرجى المحاولة مرة أخرى';
+                }
+                
+                showAlert(errorMessage, 'error');
+                isRegistering = false;
+            } finally {
+                toggleLoading(false);
+                setButtonLoading(registerBtn, false);
+            }
+        });
+
+        async function legacyRegister(email, password, username) {
+            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            await user.updateProfile({ displayName: username });
+            await user.sendEmailVerification().catch(() => {});
+            return { success: true, user };
+        }
+
+        // Google Sign In
+        document.getElementById('google-signin').addEventListener('click', function() {
+            const googleBtn = this;
+            setButtonLoading(googleBtn, true);
+            
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('profile');
+            provider.addScope('email');
+            
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    showAlert('تم تسجيل الدخول بنجاح!', 'success');
+                    
+                    // Redirect to home page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                })
+                .catch((error) => {
+                    let errorMessage = 'حدث خطأ أثناء تسجيل الدخول باستخدام جوجل';
+                    
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        errorMessage = 'تم إغلاق نافذة التسجيل';
+                    } else if (error.code === 'auth/popup-blocked') {
+                        errorMessage = 'تم حظر النافذة المنبثقة، يرجى السماح بالنوافذ المنبثقة لهذا الموقع';
+                    }
+                    
+                    showAlert(errorMessage, 'error');
+                })
+                .finally(() => {
+                    setButtonLoading(googleBtn, false);
+                });
+        });
+
+        // Utility functions
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById(`alert-${type}`);
+            alertDiv.textContent = message;
+            alertDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function toggleLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function setButtonLoading(button, loading) {
+            if (loading) {
+                button.disabled = true;
+                button.style.opacity = '0.7';
+                button.querySelector('.btn-text').innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            } else {
+                button.disabled = false;
+                button.style.opacity = '1';
+                button.querySelector('.btn-text').textContent = loading ? 'جاري المعالجة...' : 'إنشاء حساب';
+            }
+        }
+
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user && !isRegistering) {
+                // User is already logged in, redirect to home
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

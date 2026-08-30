@@ -1,0 +1,35 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && firestore.exists(/databases/(default)/documents/users/$(request.auth.uid))
+        && (
+          firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin == true
+          || firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin'
+        );
+    }
+
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /users/{userId}/{allPaths=**} {
+      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
+      allow create, update: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if signedIn() && (request.auth.uid == userId || isAdmin());
+    }
+
+    match /admin/{allPaths=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

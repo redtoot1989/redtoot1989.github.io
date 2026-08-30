@@ -1,0 +1,183 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e53935">
+    <link rel="manifest" href="manifest.json">
+    <title>المنصات - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Red<span>Toot</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="vip.html">حسابات VIP</a></li>
+                <li><a href="platforms.html" class="active">المنصات</a></li>
+                <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                <li><a href="add-profile.html">نشر حساب</a></li>
+                <li id="admin-link" style="display: none;"><a href="admin.html">لوحة التحكم</a></li>
+            </ul>
+            <div class="header-actions">
+                <div id="user-menu" class="user-menu" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="user-avatar"></div>
+                        <span id="user-name"></span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">تسجيل الخروج</button>
+                </div>
+                <div id="auth-buttons">
+                    <a href="register.html" class="btn">إنشاء حساب</a>
+                    <a href="login.html" class="btn btn-secondary">تسجيل الدخول</a>
+                </div>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>منصات التواصل الاجتماعي</h2>
+                <p>اختر المنصة التي تريد استكشاف حساباتها</p>
+            </div>
+
+            <!-- Platforms Grid -->
+            <div class="platforms-grid"></div>
+
+            <!-- Popular Profiles Section -->
+            <section class="vip-section" style="margin-top: 60px;">
+                <div class="container">
+                    <div class="navtitle">
+                        <h3><i class="fas fa-fire"></i> الحسابات الشائعة</h3>
+                        <a href="all-profiles.html" class="badge">عرض الكل</a>
+                    </div>
+                    <div class="cards-container" id="popular-profiles">
+                        <!-- Popular profiles will be loaded dynamically -->
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i> جاري تحميل الحسابات الشائعة...
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>RedToot</h3>
+                    <p>المنصة العربية الأولى للتعارف عبر منصات التواصل الاجتماعي منذ 2023.</p>
+                    <div class="social-links">
+                        <a href="contact.html" aria-label="تواصل عبر انستغرام"><i class="fab fa-instagram"></i></a>
+                        <a href="contact.html" aria-label="تواصل عبر سناب شات"><i class="fab fa-snapchat-ghost"></i></a>
+                        <a href="contact.html" aria-label="تواصل عبر تيك توك"><i class="fab fa-tiktok"></i></a>
+                        <a href="contact.html" aria-label="تواصل عبر إكس"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>الأقسام</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="vip.html">حسابات VIP</a></li>
+                        <li><a href="add-profile.html">نشر حساب</a></li>
+                        <li><a href="platforms.html">المنصات</a></li>
+                        <li><a href="all-profiles.html">جميع الحسابات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>المساعدة</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">عن الموقع</a></li>
+                        <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">شروط الاستخدام</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2023 RedToot</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        const collections = window.CONFIG?.collections || { PROFILES: 'profiles' };
+        const platformEntries = Object.values(window.CONFIG?.platforms || {});
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                for (const platform of platformEntries) {
+                    const count = await getPlatformCount(platform.id);
+                    const countEl = document.getElementById(`${platform.id}-count`);
+                    if (countEl) countEl.textContent = count;
+                }
+
+                const popularProfiles = await getPopularProfiles();
+                const container = document.getElementById('popular-profiles');
+                
+                if (popularProfiles.length > 0) {
+                    container.innerHTML = popularProfiles.map(profile => 
+                        redTootApp.createProfileCard(profile)
+                    ).join('');
+                } else {
+                    container.innerHTML = `
+                        <div class="no-results" style="text-align: center; padding: 40px; color: var(--gray); grid-column: 1 / -1;">
+                            <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                            <h3>لا توجد حسابات شائعة بعد</h3>
+                            <p>كن أول من ينشر حساب على المنصة</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                window.AppHelpers?.showNotification?.('تعذر تحميل بيانات المنصات', 'error');
+            }
+        });
+
+        async function getPlatformCount(platform) {
+            try {
+                const snapshot = await db.collection(collections.PROFILES)
+                    .where('status', '==', 'approved')
+                    .where('platform', '==', platform)
+                    .get();
+                return snapshot.size;
+            } catch (error) {
+                return 0;
+            }
+        }
+
+        async function getPopularProfiles() {
+            try {
+                const snapshot = await db.collection(collections.PROFILES)
+                    .where('status', '==', 'approved')
+                    .orderBy('views', 'desc')
+                    .limit(8)
+                    .get();
+                
+                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (error) {
+                return [];
+            }
+        }
+    </script>
+</body>
+</html>

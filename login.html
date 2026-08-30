@@ -1,0 +1,270 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e53935">
+    <meta name="description" content="تسجيل الدخول إلى RedToot لإدارة حسابك، المفضلة، البلاغات وطلبات VIP.">
+    <link rel="manifest" href="manifest.json">
+    <title>تسجيل الدخول - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header" role="banner"></header>
+
+
+
+    <main class="page-content auth-page">
+        <div class="container auth-layout">
+            <section class="auth-panel" aria-labelledby="login-title">
+                <div class="auth-brand">
+                    <span class="auth-mark" aria-hidden="true">R</span>
+                    <div>
+                        <h1 id="login-title">تسجيل الدخول</h1>
+                        <p>ادخل لإدارة حسابك والمفضلة وطلبات VIP.</p>
+                    </div>
+                </div>
+
+                <div id="alert-success" class="alert alert-success" role="status" aria-live="polite"></div>
+                <div id="alert-error" class="alert alert-error" role="alert" aria-live="assertive"></div>
+
+                <button id="google-signin" type="button" class="btn btn-google auth-submit">
+                    <span class="btn-text">
+                        <span class="google-icon" aria-hidden="true">G</span>
+                        تسجيل الدخول بحساب جوجل
+                    </span>
+                </button>
+
+                <div class="divider" aria-hidden="true"><span>أو</span></div>
+
+                <form id="loginForm" novalidate>
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" name="email" class="form-control" autocomplete="email" inputmode="email" placeholder="name@example.com" required>
+                        <small id="email-error" class="field-error"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">كلمة المرور</label>
+                        <div class="password-field">
+                            <input type="password" id="password" name="password" class="form-control" autocomplete="current-password" placeholder="أدخل كلمة المرور" required>
+                            <button type="button" id="toggle-password" class="icon-btn" aria-label="إظهار كلمة المرور">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <small id="password-error" class="field-error"></small>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-me" for="remember">
+                            <input type="checkbox" id="remember" name="remember">
+                            <span>تذكرني</span>
+                        </label>
+                        <a href="forgot-password.html" class="forgot-password">نسيت كلمة المرور؟</a>
+                    </div>
+
+                    <button type="submit" class="btn auth-submit" id="login-btn">
+                        <span class="btn-text">تسجيل الدخول</span>
+                    </button>
+
+                    <div class="form-footer">
+                        <p>ليس لديك حساب؟ <a href="register.html">إنشاء حساب جديد</a></p>
+                        <p><a href="add-profile.html">نشر حساب بدون تسجيل</a></p>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    
+    
+    <!-- Footer -->
+    <footer id="footer" role="contentinfo"></footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    
+    
+        
+    <!-- Core Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/validators.js"></script>
+    <script src="js/AuthManager.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/headerfooter.js"></script>
+    <!-- <script src="js/force-hard-refresh.js"></script> -->
+    
+    
+    
+    
+    
+    
+    
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const returnUrl = params.get('returnUrl') || 'index.html';
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('login-btn');
+        const googleBtn = document.getElementById('google-signin');
+        const togglePassword = document.getElementById('toggle-password');
+
+        if (location.protocol === 'file:') {
+            showAlert('تنبيه: جرّب الدخول من رابط GitHub Pages أو سيرفر محلي، لأن file:// قد يسبب مشاكل مع Firebase.', 'error');
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const rememberMe = document.getElementById('remember').checked;
+
+            if (!validateForm(email, password)) return;
+
+            setButtonLoading(loginBtn, true);
+
+            try {
+                const result = window.authManager?.signInWithEmail
+                    ? await window.authManager.signInWithEmail(email, password, rememberMe)
+                    : await legacyEmailLogin(email, password, rememberMe);
+
+                if (result?.success === false) throw new Error(result.error);
+                showAlert('تم تسجيل الدخول بنجاح!', 'success');
+                setTimeout(() => window.location.href = safeReturnUrl(returnUrl), 700);
+            } catch (error) {
+                showAlert(getAuthError(error), 'error');
+            } finally {
+                setButtonLoading(loginBtn, false);
+            }
+        });
+
+        googleBtn.addEventListener('click', async function() {
+            setButtonLoading(googleBtn, true);
+            try {
+                const result = window.authManager?.signInWithGoogle
+                    ? await window.authManager.signInWithGoogle()
+                    : await legacyGoogleLogin();
+
+                if (result?.success === false) throw new Error(result.error);
+                showAlert('تم تسجيل الدخول بنجاح!', 'success');
+                setTimeout(() => window.location.href = safeReturnUrl(returnUrl), 700);
+            } catch (error) {
+                showAlert(getAuthError(error, true), 'error');
+            } finally {
+                setButtonLoading(googleBtn, false);
+            }
+        });
+
+        togglePassword.addEventListener('click', () => {
+            const showing = passwordInput.type === 'text';
+            passwordInput.type = showing ? 'password' : 'text';
+            togglePassword.setAttribute('aria-label', showing ? 'إظهار كلمة المرور' : 'إخفاء كلمة المرور');
+            togglePassword.innerHTML = `<i class="fas ${showing ? 'fa-eye' : 'fa-eye-slash'}" aria-hidden="true"></i>`;
+        });
+
+        emailInput.addEventListener('input', clearFieldErrors);
+        passwordInput.addEventListener('input', clearFieldErrors);
+
+        async function legacyEmailLogin(email, password, rememberMe) {
+            const persistence = rememberMe ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
+            await auth.setPersistence(persistence);
+            await auth.signInWithEmailAndPassword(email, password);
+            return { success: true };
+        }
+
+        async function legacyGoogleLogin() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('profile');
+            provider.addScope('email');
+            await auth.signInWithPopup(provider);
+            return { success: true };
+        }
+
+        function validateForm(email, password) {
+            clearFieldErrors();
+            let valid = true;
+            const emailCheck = window.FormValidators?.validateEmail(email);
+            if (emailCheck && !emailCheck.isValid) {
+                setFieldError('email', emailCheck.message);
+                valid = false;
+            }
+            if (!password) {
+                setFieldError('password', 'كلمة المرور مطلوبة');
+                valid = false;
+            }
+            return valid;
+        }
+
+        function setFieldError(field, message) {
+            document.getElementById(`${field}-error`).textContent = message;
+            document.getElementById(field).classList.add('error');
+        }
+
+        function clearFieldErrors() {
+            document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+            document.querySelectorAll('.form-control.error').forEach(el => el.classList.remove('error'));
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById(`alert-${type}`);
+            alertDiv.textContent = message;
+            alertDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function setButtonLoading(button, loading) {
+            const text = button.querySelector('.btn-text');
+            const originalHtml = button.dataset.originalHtml || text.innerHTML;
+            button.dataset.originalHtml = originalHtml;
+            if (loading) {
+                button.disabled = true;
+                button.style.opacity = '0.7';
+                text.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+            } else {
+                button.disabled = false;
+                button.style.opacity = '1';
+                text.innerHTML = originalHtml;
+            }
+        }
+
+        function getAuthError(error, google = false) {
+            const message = error?.message || '';
+            const code = error?.code || '';
+            if (message && !message.startsWith('Firebase')) return message;
+            if (code === 'auth/user-not-found') return 'البريد الإلكتروني غير مسجل';
+            if (code === 'auth/wrong-password') return 'كلمة المرور غير صحيحة';
+            if (code === 'auth/invalid-credential') return 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+            if (code === 'auth/invalid-email') return 'البريد الإلكتروني غير صالح';
+            if (code === 'auth/user-disabled') return 'هذا الحساب معطل';
+            if (code === 'auth/network-request-failed') return 'خطأ في الشبكة، يرجى المحاولة مرة أخرى';
+            if (code === 'auth/popup-closed-by-user') return 'تم إغلاق نافذة التسجيل';
+            if (code === 'auth/popup-blocked') return 'تم حظر النافذة المنبثقة';
+            return google ? 'حدث خطأ أثناء تسجيل الدخول باستخدام جوجل' : 'حدث خطأ أثناء تسجيل الدخول';
+        }
+
+        function safeReturnUrl(url) {
+            return url && !url.startsWith('http') && !url.startsWith('//') ? url : 'index.html';
+        }
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                window.location.href = safeReturnUrl(returnUrl);
+            }
+        });
+    </script>
+</body>
+</html>

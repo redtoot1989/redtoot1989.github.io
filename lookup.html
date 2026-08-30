@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البحث برقم الحساب - RedToot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header id="header" role="banner"></header>
+    <main class="page-content">
+        <section class="container form-container">
+            <h1 class="form-title">البحث برقم الحساب</h1>
+            <form id="lookup-form">
+                <div class="form-group">
+                    <label class="form-label" for="hexLookup">رقم الحساب</label>
+                    <input id="hexLookup" class="form-control" type="text" inputmode="text" maxlength="8" pattern="^[0-9A-Fa-f]{8}$" placeholder="A1B2C3D4" required>
+                    <div class="validation-feedback" id="lookup-feedback" aria-live="polite"></div>
+                </div>
+                <button class="btn" id="lookup-submit" type="submit">بحث</button>
+            </form>
+        </section>
+    </main>
+    <footer id="footer" role="contentinfo"></footer>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/AuthManager.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/headerfooter.js"></script>
+    <script>
+        document.getElementById('hexLookup').addEventListener('input', function() {
+            this.value = this.value.toUpperCase().replace(/[^0-9A-F]/g, '').slice(0, 8);
+        });
+
+        document.getElementById('lookup-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const hex = document.getElementById('hexLookup').value.trim().toUpperCase();
+            const feedback = document.getElementById('lookup-feedback');
+            const button = document.getElementById('lookup-submit');
+            if (!/^[0-9A-F]{8}$/.test(hex)) {
+                feedback.className = 'validation-feedback invalid-feedback';
+                feedback.textContent = 'اكتب رقمًا صحيحًا من 8 خانات';
+                return;
+            }
+            button.disabled = true;
+            button.textContent = 'جاري البحث...';
+            try {
+                const collection = window.CONFIG?.collections?.PROFILES || 'profiles';
+                const snapshot = await window.db.collection(collection).where('hexId', '==', hex).limit(1).get();
+                if (snapshot.empty) {
+                    feedback.className = 'validation-feedback invalid-feedback';
+                    feedback.textContent = 'لم نجد حسابًا بهذا الرقم';
+                    button.disabled = false;
+                    button.textContent = 'بحث';
+                    return;
+                }
+                window.location.href = `profile.html?id=${encodeURIComponent(snapshot.docs[0].id)}`;
+            } catch (error) {
+                feedback.className = 'validation-feedback invalid-feedback';
+                feedback.textContent = 'تعذر البحث الآن';
+                button.disabled = false;
+                button.textContent = 'بحث';
+            }
+        });
+    </script>
+</body>
+</html>
